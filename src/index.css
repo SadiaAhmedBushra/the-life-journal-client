@@ -1,0 +1,226 @@
+/* font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+.playfair-display-font {
+  font-family: "Playfair Display", serif;
+}
+
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default;
+};
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #CAEB66;
+  --color-secondary: #03373d;
+}
+
+/* ==========================
+   Calm Wisdom Theme - index.css
+   Using CSS Variables for colors
+   Compatible with DaisyUI style
+   ========================== */
+
+/* 1. CSS Reset */
+* {
+  /* margin: 0;
+  padding: 0; */
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Default to light mode */
+  --bg-main: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-footer: #020617;
+
+  --color-primary: #898bf0;     /* Indigo */
+  --color-secondary: #14B8A6;   /* Soft Teal */
+  --color-accent: #C5CAE9    /* Soft Indigo */
+
+ --text-primary: #0F172A;
+   --text-secondary: #475569;
+  --text-muted: #94A3B8;
+
+  --border-color: #E2E8F0;
+
+  --success: #22C55E;
+  --error: #EF4444;
+  --warning: #F59E0B;
+
+  --shadow-soft: 0 4px 12px rgba(15, 23, 42, 0.08);
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+  font-family: "Playfair Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 2. Dark Mode overrides */
+html.dark {
+  --bg-main: #020617;
+  --bg-card: #020617;
+  --bg-footer: #020617;
+
+  --color-primary: #818CF8;    /* Soft Indigo */
+  --color-secondary: #2DD4BF;  /* Bright Teal */
+  --color-accent: #3ABFF8;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5F5;
+  --text-muted: #94A3B8;
+
+  --border-color: #1E293B;
+
+  --success: #4ADE80;
+  --error: #F87171;
+  --warning: #FACC15;
+
+  --shadow-soft: 0 6px 16px rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
+  background-color: var(--bg-main);
+}
+
+/* 3. Buttons */
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 10px 18px;
+border-radius: 9999px; 
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 10px 18px;
+border-radius: 9999px; 
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* 4. Inputs */
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  transition: border 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* 5. Card */
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* 6. Navbar and Footer */
+
+.navbar {
+  background-color: var(--bg-card);
+  /* border-bottom: 1px solid var(--border-color); */
+}
+
+.footer {
+  background-color: var(--bg-footer);
+  color: #F8FAFC;
+  padding: 40px 20px;
+}
+
+/* 7. Text Styles */
+
+/* h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+} */
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* 8. Utility Classes */
+
+.toast-success {
+  background-color: var(--success);
+  color: white;
+}
+
+.toast-error {
+  background-color: var(--error);
+  color: white;
+}
+
+/* 9. Loader */
+
+.loader {
+  width: 45px;
+  height: 45px;
+  border: 5px solid var(--border-color);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 10. Premium blur effect */
+
+.premium-blur {
+  filter: blur(6px);
+  pointer-events: none;
+  position: relative;
+}
+
+.premium-lock {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border-radius: 12px;
+}
