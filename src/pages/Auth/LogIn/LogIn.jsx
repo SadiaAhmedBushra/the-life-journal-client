@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
-import skyImg from "../../../assets/indigo-sky.jpg";
+import skyImg from "../../../assets/login-register-page-img.webp";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -56,7 +56,7 @@ const Login = () => {
         <h3 className="text-4xl font-extrabold mb-4 text-primary text-center">
           Good to See You Again 🌿
         </h3>
-        <p className="mb-5 text-center text-accent font-light">
+        <p className="mb-5 text-center text-muted font-light">
           Log in to continue your journey of reflection and growth.
         </p>
 
@@ -122,7 +122,7 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-muted font-light">
+        <p className="mt-6 text-center text-secondary font-light">
           New to The Life Journal?{" "}
           <Link
             to="/register"

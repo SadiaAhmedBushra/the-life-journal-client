@@ -5,6 +5,7 @@ import Home from "../pages/Home/Home/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import AddLesson from "../pages/AddLesson/AddLesson";
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        // path: 'coverage',
+        path: '/add-lesson',
+        Component: AddLesson,
+      },
+      {
+        // path: 'coverage', 
         // Component: Coverage,
         // loader: () =>  fetch('/servicecenters.json').then(res => res.json())
       },

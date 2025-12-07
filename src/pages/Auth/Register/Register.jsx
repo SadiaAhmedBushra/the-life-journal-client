@@ -4,7 +4,7 @@ import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
-import skyImg from "../../../assets/indigo-sky.jpg";
+import skyImg from "../../../assets/login-register-page-img.webp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -171,7 +171,7 @@ const Register = () => {
           </button>
         </form>
 
-        <p className="text-center mt-6 text-muted font-light">
+        <p className="text-center mt-6 text-secondary font-light">
           Already have an account?{" "}
           <Link to="/login" className="underline hover:text-black text-primary">
             Log In

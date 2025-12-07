@@ -40,10 +40,10 @@ html {
 
   --color-primary: #898bf0;     /* Indigo */
   --color-secondary: #14B8A6;   /* Soft Teal */
-  --color-accent: #C5CAE9    /* Soft Indigo */
+  --color-accent: #C5CAE9;    /* Soft Indigo */
 
- --text-primary: #0F172A;
-   --text-secondary: #475569;
+   --text-primary: #475569;
+   --text-secondary: #0F172A;
   --text-muted: #94A3B8;
 
   --border-color: #E2E8F0;
@@ -55,7 +55,7 @@ html {
   --shadow-soft: 0 4px 12px rgba(15, 23, 42, 0.08);
   color: var(--text-primary);
   background-color: var(--bg-main);
-  font-family: "Playfair Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Playfair Display", sans-serif;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -171,10 +171,10 @@ border-radius: 9999px;
   font-weight: 700;
 } */
 
-p {
+/* p {
   color: var(--text-secondary);
   line-height: 1.7;
-}
+} */
 
 /* 8. Utility Classes */
 
