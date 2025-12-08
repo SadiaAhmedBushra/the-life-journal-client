@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import formbg from '../../assets/formbg1.webp'
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
 
 const categories = [
   "Personal Growth",
@@ -25,6 +26,7 @@ const isPremiumUser = false;
 
 const AddLesson = () => {
     const {user} = useAuth();
+const queryClient = useQueryClient();
 
   const {
     register,
@@ -67,6 +69,7 @@ const handleAddLesson = (data) => {
   const lessonData = {
     ...data, 
 
+     email: user.email, 
     creatorId: user.uid,
     creatorName: user.displayName,
     creatorPhoto: user.photoURL,
@@ -90,6 +93,8 @@ const handleAddLesson = (data) => {
       toast.success("Lesson added successfully!");
       reset();
       setSelectedImage(null);
+      queryClient.invalidateQueries(["my-lessons", user.email]);
+
     })
     .catch(error => {
       console.error("Error adding lesson:", error);

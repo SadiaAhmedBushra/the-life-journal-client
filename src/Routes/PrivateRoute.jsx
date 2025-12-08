@@ -2,7 +2,7 @@ import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { Navigate } from 'react-router';
 
-const PrivateRoutes = ({children}) => {
+const PrivateRoute = ({children}) => {
     const {user, loading} = useAuth();
     if(loading){
         return <div><span className="loading loading-dots loading-xs"></span></div>
@@ -10,11 +10,7 @@ const PrivateRoutes = ({children}) => {
     if(!user){
         return <Navigate to="/login"></Navigate>
     }
-    return (
-        <div>
-            
-        </div>
-    );
+    return children;
 };
 
-export default PrivateRoutes;
+export default PrivateRoute;

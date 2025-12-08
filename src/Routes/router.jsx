@@ -6,41 +6,36 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import AddLesson from "../pages/AddLesson/AddLesson";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import MyLessons from "../pages/Dashboard/MyLessons/MyLessons";
+import PrivateRoute from "../Routes/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: RootLayout,
+    element: <RootLayout />,
     children: [
+      { index: true, element: <Home /> },
       {
-        index: true,
-        Component: Home,
+        path: "login",
+        element: <Login />,
       },
       {
-        path: '/add-lesson',
-        Component: AddLesson,
+        path: "register",
+        element: <Register />,
       },
-      {
-        // path: 'coverage', 
-        // Component: Coverage,
-        // loader: () =>  fetch('/servicecenters.json').then(res => res.json())
-      },
-      {
-      }
-    ]
+    ],
   },
   {
-    path: '/',
-    Component: AuthLayout,
-    children:[
-      {
-        path: 'login',
-        Component: Login,
-      },
-      {
-        path: 'register',
-        Component: Register,
-      }
-    ]
-  }
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      { path: "add-lesson", element: <AddLesson /> },
+      { path: "my-lessons", element: <MyLessons /> },
+    ],
+  },
 ]);
