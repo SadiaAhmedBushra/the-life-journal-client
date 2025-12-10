@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
-import formbg from "../../assets/formbg1.webp";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
+import formbg from "../../../assets/formbg1.webp";
+import useAuth from "../../../Hooks/useAuth";
+import useRole from "../../../Hooks/useRole";
 import { useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const categories = [
   "Personal Growth",
@@ -16,7 +17,6 @@ const categories = [
 
 const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
-const isPremiumUser = false;
 
 const AddLesson = () => {
   const { user } = useAuth();
@@ -32,12 +32,14 @@ const AddLesson = () => {
 
   const axiosSecure = useAxiosSecure();
   const [selectedImage, setSelectedImage] = useState(null);
+    const [role, isRoleLoading] = useRole();
+
 
   useEffect(() => {
-    if (!isPremiumUser) {
+    if (role === 'freeUser') {
       setValue("accessLevel", "free");
     }
-  }, [isPremiumUser, setValue]);
+  }, [isRoleLoading, setValue]);
 
   const handleAddLesson = (data) => {
     if (!user) {
@@ -261,16 +263,16 @@ const AddLesson = () => {
             <select
               id="accessLevel"
               {...register("accessLevel", {
-                required: isPremiumUser ? "Access level is required" : false,
+                required: isRoleLoading ? "Access level is required" : false,
               })}
-              disabled={!isPremiumUser}
+              disabled={!isRoleLoading}
               title={
-                !isPremiumUser
+                !isRoleLoading
                   ? "Upgrade to Premium to create paid lessons"
                   : undefined
               }
               className={`select select-bordered w-full ${
-                !isPremiumUser ? "bg-gray-200 cursor-not-allowed" : ""
+                !isRoleLoading ? "bg-gray-200 cursor-not-allowed" : ""
               } ${errors.accessLevel ? "border-red-500" : ""}`}
             >
               <option value="">Select access level</option>

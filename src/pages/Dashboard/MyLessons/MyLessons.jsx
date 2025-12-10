@@ -6,11 +6,13 @@ import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
+import { Link, useParams } from "react-router";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
+  // const { id } = useParams();
   const { data: lessonData = [], refetch} = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
@@ -78,13 +80,13 @@ const MyLessons = () => {
                 <td>{lesson.favoritesCount}</td>
                 <td>{lesson.views}</td>
                 <td>
-                  <button className="btn btn-primary mx-2">
+                  <Link to={`/dashboard/my-profile/edit-lesson/${lesson._id}`}><button className="btn btn-primary mx-2">
                     <FaRegEdit />
-                  </button>
+                  </button></Link>
 
-                  <button className="btn btn-secondary mx-2">
+                 <Link to={`/lesson/${lesson._id}`}> <button className="btn btn-secondary mx-2">
                     <HiOutlineDocumentMagnifyingGlass />
-                  </button>
+                  </button></Link>
 
                   <button
                     onClick={() => handleDeleteLesson(lesson._id)}

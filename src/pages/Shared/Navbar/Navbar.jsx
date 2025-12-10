@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Logo from "../../../Components/Logo/Logo";
 import { Link, NavLink } from "react-router";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCrown } from "react-icons/fa";
@@ -17,12 +17,11 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logOut()
-      .then(() => {})
-      .catch((error) => {
-        console.log(error);
-      });
-    setUserMenuOpen(false);
-    toast.success("Logged Out Successfully.");
+      .then(() => {
+        toast.success("You logged out.");
+        setUserMenuOpen(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -50,7 +49,6 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-
 
       {user && (
         <>
@@ -121,9 +119,11 @@ const Navbar = () => {
       <div className="navbar-end relative gap-2" ref={userMenuRef}>
         {user ? (
           <>
-            <Link to='/payment' >
+            <Link to="/payment">
               {" "}
-              <button className="btn btn-secondary"><FaCrown size={17}/></button>
+              <button className="btn btn-secondary">
+                <FaCrown size={17} />
+              </button>
             </Link>
             <button
               className="rounded-full"
@@ -145,7 +145,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/profile"
+                    to="/dashboard/my-profile"
                     className="block px-4 py-2 hover:bg-[#C5CAE9] text-text-primary"
                     onClick={() => setUserMenuOpen(false)}
                   >
@@ -186,7 +186,6 @@ const Navbar = () => {
           </>
         )}
       </div>
-
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
