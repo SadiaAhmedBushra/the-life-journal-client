@@ -1,21 +1,31 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
 import skyImg from "../../../assets/login-register-page-img.webp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { saveOrUpdateUser } from "../../../utils";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 
 const Register = () => {
-  const {
+  const { registerUser, updateUserProfile, user, loading } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
+    const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  
+  if (loading) return <div>Loading...</div>;
+  if (user) return <Navigate to={from} replace={true} />;
 
-  const { registerUser, updateUserProfile } = useAuth();
+
 
   const handleRegistration = async (data) => {
     try {
@@ -25,8 +35,6 @@ const Register = () => {
       }
 
       const profileImg = data.photo[0];
-
-      const result = await registerUser(data.email, data.password);
 
       const formData = new FormData();
       formData.append("image", profileImg);
@@ -43,9 +51,19 @@ const Register = () => {
         photoURL: photoURL,
       };
 
+      const result = await registerUser(data.email, data.password);
+      await saveOrUpdateUser({
+        name: data.name,
+        email: data.email,
+        photo: photoURL,
+      });
+
       await updateUserProfile(userProfile);
 
       toast.success("Congrats! Registration successful.");
+      setTimeout(() => {
+        navigate(from, { replace: true });
+      }, 800);
     } catch (error) {
       toast.error(`Sorry! Registration failed: ${error.message}`);
     }
@@ -72,14 +90,14 @@ const Register = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-10 bg-fixed bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center px-4 py-10 bg-fixed bg-cover bg-center my-10 rounded-2xl"
       style={{ backgroundImage: `url(${skyImg})` }}
     >
       <div className="backdrop-blur-sm rounded-3xl max-w-md p-10 border border-[#818CF8]">
         <h3 className="text-4xl font-extrabold mb-4 text-primary text-center">
           Start Your Journey Today ✨
         </h3>
-        <p className="mb-5 text-center text-accent font-light">
+        <p className="mb-5 text-center text-muted font-light">
           Create your free account and begin documenting your story.
         </p>
 
@@ -173,7 +191,10 @@ const Register = () => {
 
         <p className="text-center mt-6 text-secondary font-light">
           Already have an account?{" "}
-          <Link to="/login" className="underline hover:text-black text-primary">
+          <Link
+            to="/auth/login"
+            className="underline hover:text-black text-primary"
+          >
             Log In
           </Link>
         </p>

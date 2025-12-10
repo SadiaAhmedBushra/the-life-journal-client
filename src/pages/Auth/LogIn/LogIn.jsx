@@ -1,31 +1,58 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import skyImg from "../../../assets/login-register-page-img.webp";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { saveOrUpdateUser } from "../../../utils";
 
-
-const Login = () => {
+const LogIn = () => {
+  const { signInUser, user, loading } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const { signInUser } = useAuth();
-  const handleLogIn = (data) => {
-    signInUser(data.email, data.password)
-      .then((result) => {
-        toast.success("Welcpme Back! Logged in successfully!"); 
-      })
-      .catch((error) => {
-        toast.error(`Sorry! Login failed: ${error.message}`); 
-      });
+  if (loading) return <div>Loading...</div>;
+  if (user) return <Navigate to={from} replace={true} />;
 
+  // const handleLogIn = (data) => {
+  //   signInUser(data.email, data.password)
+  //     .then((result) => {
+  //             await saveOrUpdateUser({
+  //               name: data.name,
+  //               email: data.email,
+  //               photo: photoURL,
+  //             });
+  //      setTimeout(() => {
+  //       navigate(from, { replace: true });
+  //     }, 800);
+  //   })
+  //     .catch((error) => {
+  //       toast.error(`Sorry! Login failed: ${error.message}`);
+  //     });
+  // };
+
+  const handleLogIn = async (data) => {
+    try {
+      const result = await signInUser(data.email, data.password);
+      await saveOrUpdateUser({
+        name: data.name,
+        email: data.email,
+      });
+      setTimeout(() => {
+        navigate(from, { replace: true });
+      }, 800);
+      toast.success("Welcome back!");
+    } catch (error) {
+      toast.error(`Sorry! Login failed: ${error.message}`);
+    }
   };
 
   const onError = (errors) => {
@@ -49,7 +76,7 @@ const Login = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-10 bg-fixed bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center px-4 py-10 bg-fixed bg-cover bg-center my-10 rounded-2xl"
       style={{ backgroundImage: `url(${skyImg})` }}
     >
       <div className="backdrop-blur-sm rounded-3xl max-w-md p-10 border border-[#818CF8]">
@@ -60,7 +87,10 @@ const Login = () => {
           Log in to continue your journey of reflection and growth.
         </p>
 
-        <form onSubmit={handleSubmit(handleLogIn, onError)} className="space-y-6">
+        <form
+          onSubmit={handleSubmit(handleLogIn, onError)}
+          className="space-y-6"
+        >
           {/* Email */}
           <div>
             <label className="block mb-2 font-semibold text-text-primary">
@@ -125,7 +155,7 @@ const Login = () => {
         <p className="mt-6 text-center text-secondary font-light">
           New to The Life Journal?{" "}
           <Link
-            to="/register"
+            to="/auth/register"
             className="underline hover:text-black text-primary"
           >
             Register
@@ -136,10 +166,9 @@ const Login = () => {
           <SocialLogin />
         </div>
       </div>
-            <ToastContainer position="top-right" autoClose={3000} />
-
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
 
-export default Login;
+export default LogIn;

@@ -5,12 +5,13 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { MdDeleteOutline } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: lessonData = [] } = useQuery({
+  const { data: lessonData = [], refetch} = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -19,7 +20,32 @@ const MyLessons = () => {
     },
   });
 
-  console.log("LESSON DATA:", lessonData);
+  const handleDeleteLesson = (lessonId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/lessons/${lessonId}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Lesson has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
+  // console.log("LESSON DATA:", lessonData);
 
   return (
     <div>
@@ -27,7 +53,6 @@ const MyLessons = () => {
 
       <div className="overflow-x-auto">
         <table className="table">
-          {/* head */}
           <thead>
             <tr>
               <th></th>
@@ -61,7 +86,10 @@ const MyLessons = () => {
                     <HiOutlineDocumentMagnifyingGlass />
                   </button>
 
-                  <button className="btn btn-secondary mx-2">
+                  <button
+                    onClick={() => handleDeleteLesson(lesson._id)}
+                    className="btn btn-secondary mx-2"
+                  >
                     <MdDeleteOutline />
                   </button>
                 </td>

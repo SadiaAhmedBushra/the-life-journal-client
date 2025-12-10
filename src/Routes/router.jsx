@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home/Home/Home";
 import AuthLayout from "../layouts/AuthLayout";
-import Login from "../pages/Auth/Login/Login";
+import LogIn from "../pages/Auth/LogIn/LogIn";
 import Register from "../pages/Auth/Register/Register";
 import AddLesson from "../pages/AddLesson/AddLesson";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import MyLessons from "../pages/Dashboard/MyLessons/MyLessons";
 import PrivateRoute from "../Routes/PrivateRoute";
+import Payment from "../pages/Home/Payment/Payment";
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+import UpdateMyProfile from "../pages/Dashboard/MyProfile/UpdateMyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -17,15 +19,32 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       {
-        path: "login",
-        element: <Login />,
+        path: "payment",
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
       },
-      {
-        path: "register",
-        element: <Register />,
-      },
+      // {
+      //   path: "login",
+      //   element: <Login />,
+      // },
+      // {
+      //   path: "register",
+      //   element: <Register />,
+      // },
     ],
   },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <LogIn /> },
+      { path: "register", element: <Register /> },
+    ],
+  },
+
   {
     path: "dashboard",
     element: (
@@ -34,8 +53,22 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: "add-lesson", element: <AddLesson /> },
-      { path: "my-lessons", element: <MyLessons /> },
+      {
+        path: "add-lesson",
+        element: <AddLesson />,
+      },
+      {
+        path: "my-lessons",
+        element: <MyLessons />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "/dashboard/update-my-profile",
+        element: <UpdateMyProfile />,
+      },
     ],
   },
 ]);

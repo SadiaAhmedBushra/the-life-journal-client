@@ -1,24 +1,54 @@
 import React from "react";
 import useAuth from "../../../hooks/useAuth";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { saveOrUpdateUser } from "../../../utils";
 
 const SocialLogin = () => {
   const { signInGoogle } = useAuth();
-  const handleGoogleSignIn = () => {
-    signInGoogle()
-        .then((result) => {console.log(result.user)
-          toast.success("Logged in with Google successfully.");
-        }
-      )
-        .catch((error) => {console.log(error)
-          toast.error(`Google Sign-In failed: ${error.message}`);
-        });
-  }
+  // const handleGoogleSignIn = () => {
+  //  const {user} = signInGoogle()
+  //     .then((result) => {
+  //             await saveOrUpdateUser({
+  //               name: user?.displayName,
+  //               email: user?.email,
+  //               photo: user?.photoURL,
+  //             });
+  //       console.log(result.user);
+  //       toast.success("Logged in with Google successfully.");
+
+  //     })
+
+  //     .catch((error) => {
+  //       console.log(error);
+  //       toast.error(`Google Sign-In failed: ${error.message}`);
+  //     });
+  // };
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInGoogle();
+      const user = result.user;
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+      });
+
+      toast.success("Logged in with Google successfully.");
+    } catch (error) {
+      console.log(error);
+      toast.error(`Google Sign-In failed: ${error.message}`);
+    }
+  };
+
   return (
     <div>
       <p className="my-3 text-center">Or</p>
       {/* Google */}
-      <button onClick={handleGoogleSignIn} className="btn w-full bg-white text-black border-[#e5e5e5] rounded-full">
+      <button
+        onClick={handleGoogleSignIn}
+        className="btn w-full bg-white text-black border-[#e5e5e5] rounded-full"
+      >
         <svg
           aria-label="Google logo"
           width="16"
@@ -48,6 +78,7 @@ const SocialLogin = () => {
         </svg>
         Login with Google
       </button>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

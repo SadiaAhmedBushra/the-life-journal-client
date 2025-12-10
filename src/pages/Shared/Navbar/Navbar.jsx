@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Logo from "../../../Components/Logo/Logo";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../hooks/useAuth";
-import { useState, useRef, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaCrown } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  console.log("User object:", user);
-  const [dropdown, setDropdown] = useState(false);
-  const dropdownRef = useRef(null);
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const userMenuRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   const handleLogOut = () => {
     logOut()
@@ -18,14 +21,20 @@ const Navbar = () => {
       .catch((error) => {
         console.log(error);
       });
-    setDropdown(false);
-          toast.success("Logged Out Successfully.");
-    
+    setUserMenuOpen(false);
+    toast.success("Logged Out Successfully.");
   };
+
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdown(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
+        setMobileMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -33,51 +42,93 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const links = (
     <>
-    <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
       <li>
-        <NavLink to="/dashboard/add-lesson">Add Lesson</NavLink>
+        <NavLink to="/" onClick={() => setMobileMenuOpen(false)}>
+          Home
+        </NavLink>
       </li>
 
-       {
-        user && <> 
-         <li>
-        <NavLink to="/dashboard/my-lessons">My Lessons</NavLink>
-      </li>
-      </>
-      }
-    
+
+      {user && (
+        <>
+          <li>
+            <NavLink
+              to="/dashboard/add-lesson"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Add Lesson
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/dashboard/my-lessons"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              My Lessons
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
+
   return (
-    <div className="navbar bg-main ">
-      <div className="navbar-start ">
-        <div className="dropdown">
-          <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-main rounded-box z-1 mt-3 w-52 p-2"
+    <div className="navbar bg-main">
+      <div className="navbar-start">
+        <div className="dropdown" ref={mobileMenuRef}>
+          <button
+            className="btn btn-ghost lg:hidden"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
           >
-            {links}
-          </ul>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+
+          {mobileMenuOpen && (
+            <ul className="menu menu-sm dropdown-content bg-main rounded-box z-50 mt-3 w-52 p-2 shadow-lg absolute">
+              {links}
+            </ul>
+          )}
         </div>
-        <a className="text-xl">
-          <Logo></Logo>
-        </a>
+
+        <Link to="/" className="text-xl ml-2">
+          <Logo />
+        </Link>
       </div>
-      <div className="navbar-center hidden lg:flex rounded-full border font-semibold border-indigo-300 color-text-primary"
->
-        <ul className="menu menu-horizontal px-1 color-text-primary"
->{links}</ul>
+
+      <div className="navbar-center hidden lg:flex rounded-full border font-semibold border-indigo-300 color-text-primary">
+        <ul className="menu menu-horizontal px-1 color-text-primary">
+          {links}
+        </ul>
       </div>
-      <div className="navbar-end relative" ref={dropdownRef}>
+
+      <div className="navbar-end relative gap-2" ref={userMenuRef}>
         {user ? (
           <>
+            <Link to='/payment' >
+              {" "}
+              <button className="btn btn-secondary"><FaCrown size={17}/></button>
+            </Link>
             <button
-              className=" rounded-full"
-              onClick={() => setDropdown((prev) => !prev)}
+              className="rounded-full"
+              onClick={() => setUserMenuOpen((prev) => !prev)}
+              aria-label="User menu"
             >
               <img
                 src={user.photoURL || "/default-profile.png"}
@@ -86,18 +137,17 @@ const Navbar = () => {
               />
             </button>
 
-            {dropdown && (
-              <ul className="absolute right-0 mt-42 w-48 bg-white rounded-lg z-10">
+            {userMenuOpen && (
+              <ul className="absolute right-0 mt-29 w-48 bg-white rounded-lg z-50 shadow-lg">
                 <li className="px-4 py-2 border-b border-[#818CF8] font-semibold ">
                   Username: {user.displayName}
                   <br />
                 </li>
-
                 <li>
                   <Link
                     to="/profile"
                     className="block px-4 py-2 hover:bg-[#C5CAE9] text-text-primary"
-                    onClick={() => setDropdown(false)}
+                    onClick={() => setUserMenuOpen(false)}
                   >
                     Profile
                   </Link>
@@ -106,7 +156,7 @@ const Navbar = () => {
                   <Link
                     to="/dashboard"
                     className="block px-4 py-2 hover:bg-[#C5CAE9] text-text-primary"
-                    onClick={() => setDropdown(false)}
+                    onClick={() => setUserMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
@@ -125,17 +175,19 @@ const Navbar = () => {
         ) : (
           <>
             <Link
-              to="/login"
+              to="/auth/login"
               className="btn rounded-full border border-[#818CF8] px-5"
             >
               Log In
             </Link>
-            <Link to="/register" className="btn btn-primary mx-4">
+            <Link to="/auth/register" className="btn btn-primary mx-4">
               Register
             </Link>
           </>
         )}
       </div>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

@@ -5,6 +5,9 @@ import { Outlet } from "react-router";
 import Navbar from "../pages/Shared/Navbar/Navbar";
 import { MdDashboard } from "react-icons/md";
 import Footer from "../pages/Shared/Footer/Footer";
+import { RiStickyNoteAddFill } from "react-icons/ri";
+import { CgProfile } from "react-icons/cg";
+
 
 
 const DashboardLayout = () => {
@@ -66,6 +69,17 @@ const DashboardLayout = () => {
               </Link>
             </li>
             {/* Our dashboard links */}
+                        <li>
+              <NavLink
+                to="/dashboard/add-lesson"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="AddLesson"
+              >
+                <RiStickyNoteAddFill className="text-primary size-6"/>
+
+                <span className="is-drawer-close:hidden">Add Lesson </span>
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to="/dashboard/my-lessons"
@@ -76,32 +90,17 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">My Lessons </span>
               </NavLink>
             </li>
-
-            {/* List item */}
             <li>
-              <button
+              <NavLink
+                to="/dashboard/my-profile"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
+                data-tip="MyProfile"
               >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
+                <CgProfile  className="text-primary size-6"  />
+                <span className="is-drawer-close:hidden">My Profile</span>
+              </NavLink>
             </li>
+                  
           </ul>
         </div>
       </div>

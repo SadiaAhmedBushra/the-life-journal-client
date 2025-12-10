@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import formbg from "../../assets/formbg1.webp";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 
 const categories = [
