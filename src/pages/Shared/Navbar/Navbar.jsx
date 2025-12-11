@@ -5,9 +5,12 @@ import useAuth from "../../../Hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCrown } from "react-icons/fa";
+import useRole from "../../../Hooks/useRole";
+import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [role, isRoleLoading] = useRole();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -119,12 +122,22 @@ const Navbar = () => {
       <div className="navbar-end relative gap-2" ref={userMenuRef}>
         {user ? (
           <>
-            <Link to="/payment">
-              {" "}
-              <button className="btn btn-secondary">
-                <FaCrown size={17} />
-              </button>
-            </Link>
+            {role === "freeUser" && (
+              <Link to="/payment">
+                <button className="btn btn-secondary flex items-center gap-1">
+                  <FaCrown size={17} />
+                  Upgrade
+                </button>
+              </Link>
+            )}
+
+            {role === "Premium" && (
+              <div className="flex items-center gap-1 btn-primary text-white">
+                <MdOutlineWorkspacePremium size={22} className="" />
+                Premium
+              </div>
+            )}
+
             <button
               className="rounded-full"
               onClick={() => setUserMenuOpen((prev) => !prev)}
