@@ -18,7 +18,6 @@ const categories = [
 
 const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
-
 const AddLesson = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -33,18 +32,13 @@ const AddLesson = () => {
 
   const axiosSecure = useAxiosSecure();
   const [selectedImage, setSelectedImage] = useState(null);
-    const [role, isRoleLoading] = useRole();
-
+  const [role, isRoleLoading] = useRole();
 
   useEffect(() => {
-    if (role === 'freeUser') {
+    if (!isRoleLoading && role === "freeUser") {
       setValue("accessLevel", "free");
     }
-  }, [isRoleLoading, setValue]);
-
-  if (isRoleLoading) {
-    return <LoadingSpinner />;
-  }
+  }, [role, isRoleLoading, setValue]);
 
   const handleAddLesson = (data) => {
     if (!user) {
@@ -87,6 +81,10 @@ const AddLesson = () => {
         toast.error("Failed to add lesson");
       });
   };
+
+  if (isRoleLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div
@@ -165,7 +163,7 @@ const AddLesson = () => {
                 errors.category ? "border-red-500" : ""
               }`}
             >
-              <option value="">Select a category</option>
+              <option disabled value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -194,7 +192,7 @@ const AddLesson = () => {
                 errors.emotionalTone ? "border-red-500" : ""
               }`}
             >
-              <option value="">Select emotional tone</option>
+              <option disabled value="">Select emotional tone</option>
               {emotionalTones.map((tone) => (
                 <option key={tone} value={tone}>
                   {tone}
@@ -248,7 +246,7 @@ const AddLesson = () => {
                 errors.privacy ? "border-red-500" : ""
               }`}
             >
-              <option value="">Select privacy</option>
+              <option disabled value="">Select privacy</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
             </select>
@@ -265,25 +263,28 @@ const AddLesson = () => {
             >
               Access Level
             </label>
+
             <select
               id="accessLevel"
               {...register("accessLevel", {
-                required: isRoleLoading ? "Access level is required" : false,
+                required:
+                  role === "premiumUser" ? "Access level is required" : false,
               })}
-              disabled={!isRoleLoading}
+              disabled={role === "freeUser"}
               title={
-                !isRoleLoading
+                role === "freeUser"
                   ? "Upgrade to Premium to create paid lessons"
                   : undefined
               }
               className={`select select-bordered w-full ${
-                !isRoleLoading ? "bg-gray-200 cursor-not-allowed" : ""
+                role === "freeUser" ? "bg-gray-200 cursor-not-allowed" : ""
               } ${errors.accessLevel ? "border-red-500" : ""}`}
             >
-              <option value="">Select access level</option>
+              <option disabled value="">Select access level</option>
               <option value="free">Free</option>
               <option value="premium">Premium</option>
             </select>
+
             {errors.accessLevel && (
               <p className="text-red-500 mt-1">{errors.accessLevel.message}</p>
             )}

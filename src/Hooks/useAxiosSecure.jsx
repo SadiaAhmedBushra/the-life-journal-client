@@ -1,11 +1,54 @@
-import axios from 'axios';
-import React from 'react';
+// import axios from "axios";
+// import React, { useEffect } from "react";
+// import useAuth from "../Hooks/useAuth";
+
+// const axiosSecure = axios.create({
+//   baseURL: "http://localhost:3000",
+// });
+
+// const useAxiosSecure = () => {
+//     const {user} =useAuth();
+
+//   useEffect(() => {
+//     axiosSecure.interceptors.request.use((config) => {
+//       config.headers.Authorization = `Bearer ${user?.accessToken}`
+//             return config;
+
+//     });
+
+
+
+//   }, [user]);
+
+//   return axiosSecure;
+// };
+
+// export default useAxiosSecure;
+import axios from "axios";
+import { useEffect } from "react";
+import useAuth from "../Hooks/useAuth";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:3000',
+  baseURL: "http://localhost:3000",
 });
+
 const useAxiosSecure = () => {
-    return axiosSecure;
+//   const { user } = useAuth();
+
+//   useEffect(() => {
+//     const interceptor = axiosSecure.interceptors.request.use((config) => {
+//       if (user?.accessToken) {
+//         config.headers.Authorization = `Bearer ${user.accessToken}`;
+//       }
+//       return config;
+//     });
+
+//     return () => {
+//       axiosSecure.interceptors.request.eject(interceptor);
+//     };
+//   }, [user]);
+
+  return axiosSecure;
 };
 
 export default useAxiosSecure;
