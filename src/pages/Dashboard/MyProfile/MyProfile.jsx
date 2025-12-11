@@ -10,6 +10,7 @@ import useAuth from "../../../Hooks/useAuth";
 const MyProfile = () => {
   const { user } = useAuth();
   const [role, isRoleLoading] = useRole();
+  console.log("Role:", role);
 
   const axiosSecure = useAxiosSecure();
 
@@ -42,12 +43,13 @@ const MyProfile = () => {
                 className="mx-auto object-cover rounded-full h-32 w-32 lg:h-40 lg:w-40 border-2 border-white"
               />
             </a>
-            {role === "premiumUser" && (
-              <div className="flex flex-row gap-1 items-center text-primary text-xl font-bold">
-                <MdOutlineWorkspacePremium />
-                <p>Premium User</p>
+            {role === "Premium" && (
+              <div className="flex items-center gap-1 btn-primary text-white ">
+                <MdOutlineWorkspacePremium className="text-2xl" />
+                <span>Premium User</span>
               </div>
             )}
+
             {role === "freeUser" && <div></div>}
             <p className="text-center text-md text-secondary">
               User Id: {user?.uid}
