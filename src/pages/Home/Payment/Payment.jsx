@@ -2,12 +2,51 @@ import React from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import formbg from "../../../assets/formbg1.webp";
+import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 const Payment = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
+  //   const handlePayment = async () => {
+  //     const paymentInfo = {
+  //       name: "Premium Membership – Lifetime",
+  //       description: "Unlimited lessons, ad-free, premium features",
+  //       price: 1500,
+  //       quantity: 1,
+  //       email: user?.email,
+  //       image: "https://i.ibb.co/SX1Tq2W/premium.png",
+  //     };
+
+  //     const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+  //     window.location.href = res.data.url;
+  //   };
+
+  // const handlePayment = async () => {
+  //   try {
+  //     const paymentInfo = {
+  //       name: "Premium Membership – Lifetime",
+  //       description: "Unlimited lessons, ad-free, premium features",
+  //       price: 1500,
+  //       quantity: 1,
+  //       email: user?.email,
+  //       image: "https://i.ibb.co/SX1Tq2W/premium.png",
+  //     };
+
+  //     const res = await axiosSecure.post(
+  //       "/payment-checkout-session",
+  //       paymentInfo
+  //     );
+  //     window.location.href = res.data.url;
+  //   } catch (error) {
+  //     console.error("Payment error:", error);
+  //     toast.error("Failed to start payment. Please try again.");
+  //   }
+  // };
+
   const handlePayment = async () => {
+  try {
     const paymentInfo = {
       name: "Premium Membership – Lifetime",
       description: "Unlimited lessons, ad-free, premium features",
@@ -17,9 +56,29 @@ const Payment = () => {
       image: "https://i.ibb.co/SX1Tq2W/premium.png",
     };
 
-    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
     window.location.href = res.data.url;
-  };
+  } catch (error) {
+    console.error("Payment error:", error);
+    toast.error("Failed to start payment. Please try again.");
+  }
+};
+
+
+  const { data: userData = {}, isLoading } = useQuery({
+    queryKey: ["userRole", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/role/${user?.email}`);
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+
+  const role = userData?.role || "freeUser";
+  const paymentStatus = userData?.paymentStatus || "unpaid";
 
   return (
     <div className="max-w-5xl mx-auto p-8">
@@ -51,7 +110,10 @@ const Payment = () => {
         Compare and give it a second thought!
       </h3>
 
-      <table className="table w-full mb-10 rounded-lg" style={{ backgroundImage: `url(${formbg})` }}>
+      <table
+        className="table w-full mb-10 rounded-lg"
+        style={{ backgroundImage: `url(${formbg})` }}
+      >
         <thead>
           <tr className="">
             <th>Features</th>
@@ -97,6 +159,9 @@ const Payment = () => {
         <button onClick={handlePayment} className="btn btn-primary btn-lg">
           Upgrade to Premium (৳1500)
         </button>
+
+        <h1 className="my-5 text-3xl text-primary">Payment Status: {paymentStatus}</h1>
+        <h1 className="my-5 text-3xl text-primary">Role: {role}</h1>
       </div>
     </div>
   );

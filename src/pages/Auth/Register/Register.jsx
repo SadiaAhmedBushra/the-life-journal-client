@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
 import skyImg from "../../../assets/login-register-page-img.webp";

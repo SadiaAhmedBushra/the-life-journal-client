@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import { Link, useParams } from "react-router";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
+import useRole from "../../../Hooks/useRole";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [role, isRoleLoading] = useRole();
 
   // const { id } = useParams();
   const { data: lessonData = [], refetch} = useQuery({
@@ -48,6 +51,10 @@ const MyLessons = () => {
   };
 
   // console.log("LESSON DATA:", lessonData);
+
+  if (isRoleLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>

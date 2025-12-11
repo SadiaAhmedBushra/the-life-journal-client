@@ -15,11 +15,13 @@ import LessonDetails from "../pages/LessonDetails/LessonDetails";
 import EditLesson from '../../src/pages/Dashboard/MyLessons/EditLesson'
 import PaymentSuccess from "../pages/Home/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Home/Payment/PaymentCancelled";
+import ErrorPage from "../Components/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
            {

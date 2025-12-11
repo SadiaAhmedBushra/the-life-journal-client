@@ -6,6 +6,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useRole from "../../../Hooks/useRole";
 import { useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
 
 const categories = [
   "Personal Growth",
@@ -40,6 +41,10 @@ const AddLesson = () => {
       setValue("accessLevel", "free");
     }
   }, [isRoleLoading, setValue]);
+
+  if (isRoleLoading) {
+    return <LoadingSpinner />;
+  }
 
   const handleAddLesson = (data) => {
     if (!user) {

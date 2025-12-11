@@ -9,7 +9,6 @@ const RootLayout = () => {
         <div className='max-w-7xl mx-auto bg-main'>
             <Navbar></Navbar>
             <Outlet></Outlet>
-                  <ToastContainer position="top-right" autoClose={3000} />
 
             <Footer></Footer>
         </div>
