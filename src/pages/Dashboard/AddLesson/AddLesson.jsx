@@ -7,6 +7,7 @@ import useRole from "../../../Hooks/useRole";
 import { useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
+import { useNavigate } from "react-router";
 
 const categories = [
   "Personal Growth",
@@ -21,6 +22,7 @@ const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 const AddLesson = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
   const {
     register,
@@ -75,6 +77,8 @@ const AddLesson = () => {
         reset();
         setSelectedImage(null);
         queryClient.invalidateQueries(["my-lessons", user.email]);
+                navigate("/dashboard/my-lessons");
+
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);

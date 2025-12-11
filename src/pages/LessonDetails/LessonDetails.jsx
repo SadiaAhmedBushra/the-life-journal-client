@@ -83,6 +83,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { FaLock, FaUsers, FaTag, FaSmile, FaCalendarAlt, FaEye, FaHeart, FaStar } from "react-icons/fa";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 
 const LessonDetails = () => {
   const { user } = useAuth();
@@ -98,14 +99,7 @@ const LessonDetails = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <span
-          className="loading loading-dots loading-xl"
-          style={{ color: "var(--color-primary)" }}
-        ></span>
-      </div>
-    );
+    return <LoadingSpinner></LoadingSpinner>
   }
 
   if (error) {
@@ -135,7 +129,7 @@ const LessonDetails = () => {
 
   return (
     <main
-      className="max-w-5xl mx-auto rounded-xl mt-16 p-10 relative overflow-hidden font-sans border"
+      className="max-w-5xl mx-auto rounded-xl my-10 p-10 relative overflow-hidden font-sans border"
       style={{
         backgroundColor: "var(--bg-card)",
         borderColor: "var(--color-primary)",

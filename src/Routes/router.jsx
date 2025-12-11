@@ -40,16 +40,6 @@ export const router = createBrowserRouter([
   path: "payment/cancelled",
   element: <PaymentCancelled />,
 },
-
-
-      // {
-      //   path: "login",
-      //   element: <Login />,
-      // },
-      // {
-      //   path: "register",
-      //   element: <Register />,
-      // },
     ],
   },
   {
@@ -70,11 +60,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "add-lesson",
+        path: "/dashboard/add-lesson",
         element: <AddLesson />,
       },
       {
-        path: "my-lessons",
+        path: "/dashboard/my-lessons",
         element: <MyLessons />,
       },
             {
@@ -82,7 +72,7 @@ export const router = createBrowserRouter([
         element: <EditLesson />,
       },
       {
-        path: "my-profile",
+        path: "/dashboard/my-profile",
         element: <MyProfile />,
       },
       {

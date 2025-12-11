@@ -128,7 +128,7 @@ const Payment = () => {
             <td>Unlimited</td>
           </tr>
           <tr>
-            <td>Create Premium / Private Lessons</td>
+            <td>Create Premium Lessons</td>
             <td>No</td>
             <td>Yes</td>
           </tr>
