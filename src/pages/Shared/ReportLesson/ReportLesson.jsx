@@ -31,7 +31,7 @@ const ReportLesson = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 shadow-lg rounded-lg">
+    <div className="max-w-md mx-auto my-10 p-6 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Report This Lesson</h2>
 
       <form onSubmit={handleSubmit}>

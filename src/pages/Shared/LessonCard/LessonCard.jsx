@@ -5,6 +5,14 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+} from "react-share";
 
 const LessonCard = ({ lesson }) => {
   const { user, role } = useAuth();
@@ -157,7 +165,7 @@ const LessonCard = ({ lesson }) => {
         <div className="flex items-center gap-4 mb-4 text-sm">
           <button
             onClick={handleLikeClick}
-            className="flex items-center gap-1 focus:outline-none"
+            className="flex items-center gap-1 "
           >
             <span className="text-red-500">{liked ? "❤️" : "🤍"}</span>{" "}
             {likesCount} Likes
@@ -165,6 +173,25 @@ const LessonCard = ({ lesson }) => {
 
           <span>🔖 {favoritesCount} Favorites</span>
           <span>👁️ {viewsCount} Views</span>
+          <div className="flex items-center gap-2">
+            <FacebookShareButton
+              url={`https://your-domain.com/lesson/${lesson._id}`}
+            >
+              <FacebookIcon size={15} round />
+            </FacebookShareButton>
+
+            <TwitterShareButton
+              url={`https://your-domain.com/lesson/${lesson._id}`}
+            >
+              <TwitterIcon size={15} round />
+            </TwitterShareButton>
+
+            <WhatsappShareButton
+              url={`https://your-domain.com/lesson/${lesson._id}`}
+            >
+              <WhatsappIcon size={15} round />
+            </WhatsappShareButton>
+          </div>
         </div>
 
         <button
