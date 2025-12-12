@@ -52,6 +52,11 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/public-lessons" onClick={() => setMobileMenuOpen(false)}>
+          Lessons
+        </NavLink>
+      </li>
 
       {user && (
         <>

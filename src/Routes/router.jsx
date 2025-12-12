@@ -12,10 +12,12 @@ import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import AddLesson from "../pages/Dashboard/AddLesson/AddLesson";
 import UpdateMyProfile from "../pages/Dashboard/MyProfile/UpdateMyProfile";
 import LessonDetails from "../pages/LessonDetails/LessonDetails";
-import EditLesson from '../../src/pages/Dashboard/MyLessons/EditLesson'
+import EditLesson from "../../src/pages/Dashboard/MyLessons/EditLesson";
 import PaymentSuccess from "../pages/Home/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Home/Payment/PaymentCancelled";
 import ErrorPage from "../Components/ErrorPage";
+import PublicLessons from "../pages/Shared/PublicLessons/PublicLessons";
+import ReportLesson from "../pages/Shared/ReportLesson/ReportLesson";
 
 export const router = createBrowserRouter([
   {
@@ -24,22 +26,43 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-           {
-        path: '/lesson/:id',
-        element:   <PrivateRoute><LessonDetails /></PrivateRoute>,
+      {
+        path: "public-lessons",
+        element: <PublicLessons />,
       },
-{
-  path: "payment",
-  element: <PrivateRoute><Payment /></PrivateRoute>,
-},
-{
-  path: "payment/success",
-  element: <PaymentSuccess />,
-},
-{
-  path: "payment/cancelled",
-  element: <PaymentCancelled />,
-},
+      {
+        path: "/lesson/:id",
+        element: (
+          <PrivateRoute>
+            <LessonDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <Payment />
+          // <PrivateRoute>
+
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment/success",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "payment/cancelled",
+        element: <PaymentCancelled />,
+      },
+      {
+        path: "/report-lesson/:id",
+        element: (
+          <PrivateRoute>
+            <ReportLesson />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -67,7 +90,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/my-lessons",
         element: <MyLessons />,
       },
-            {
+      {
         path: "/dashboard/my-profile/edit-lesson/:id",
         element: <EditLesson />,
       },

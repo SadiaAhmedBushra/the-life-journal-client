@@ -113,7 +113,6 @@ const LessonDetails = () => {
     );
   }
 
-  // Helper for bars with max value, scale to 100%
   const Bar = ({ value, max = 100, color }) => {
     const percentage = Math.min((value / max) * 100, 100);
     const bgColor = color === "primary" ? "var(--color-primary)" : "var(--color-secondary)";
@@ -129,7 +128,7 @@ const LessonDetails = () => {
 
   return (
     <main
-      className="max-w-5xl mx-auto rounded-xl my-10 p-10 relative overflow-hidden font-sans border"
+      className="max-w-5xl mx-auto rounded-xl my-10 p-10 relative overflow-hidden border"
       style={{
         backgroundColor: "var(--bg-card)",
         borderColor: "var(--color-primary)",
