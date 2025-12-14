@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import useAuth from '../../../hooks/useAuth';
+import React, { useState } from "react";
+import useAuth from "../../../Hooks/useAuth";
 import { updateProfile } from "firebase/auth";
-import { toast } from 'react-toastify';
-import formbg from '../../../assets/formbg1.webp'
+import { toast } from "react-toastify";
+import formbg from "../../../assets/formbg1.webp";
 
 const UpdateMyProfile = () => {
-    const { user } = useAuth();
+  const { user } = useAuth();
 
   const [name, setName] = useState(user?.displayName || "");
   const [photo, setPhoto] = useState(user?.photoURL || "");
@@ -23,11 +23,15 @@ const UpdateMyProfile = () => {
     } catch (error) {
       toast.error("Failed to update profile: " + error.message);
     }
-};
-    return (
-       <div className="max-w-lg mx-auto my-10 p-8 rounded-lg bg-cover bg-center flex flex-col justify-center items-center"
-             style={{ backgroundImage: `url(${formbg})` }}>
-      <h2 className="text-3xl font-bold mb-6 text-primary text-center">Update Profile</h2>
+  };
+  return (
+    <div
+      className="max-w-lg mx-auto my-10 p-8 rounded-lg bg-cover bg-center flex flex-col justify-center items-center"
+      style={{ backgroundImage: `url(${formbg})` }}
+    >
+      <h2 className="text-3xl font-bold mb-6 text-primary text-center">
+        Update Profile
+      </h2>
 
       <form onSubmit={handleUpdate} className="space-y-4">
         <div>
@@ -53,7 +57,7 @@ const UpdateMyProfile = () => {
         <button className="btn btn-primary w-full">Save Changes</button>
       </form>
     </div>
-    );
+  );
 };
 
 export default UpdateMyProfile;

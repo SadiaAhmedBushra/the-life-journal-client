@@ -67,12 +67,9 @@ const AddLesson = () => {
       isReviewed: false,
     };
 
-    //   console.log("Final Lesson Data:", lessonData);
-
     axiosSecure
       .post("/lessons", lessonData)
       .then((res) => {
-        //   console.log("Lesson added:", res.data);
         toast.success("Lesson added successfully!");
         reset();
         setSelectedImage(null);

@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import { BsBookmarkHeartFill } from "react-icons/bs";
 
 
-const DashboardLayout = () => {
+const AdminDashboardLayout = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="drawer lg:drawer-open">
@@ -69,7 +69,7 @@ const DashboardLayout = () => {
               {/* Our dashboard links */}
               <li>
                 <NavLink
-                  to="/admin-dashboard/add-lesson"
+                  to="/dashboard/add-lesson"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="AddLesson"
                 >
@@ -80,7 +80,7 @@ const DashboardLayout = () => {
               </li>
               <li>
                 <NavLink
-                  to="/admin-dashboard/my-lessons"
+                  to="/dashboard/my-lessons"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="MyLessons"
                 >
@@ -90,7 +90,7 @@ const DashboardLayout = () => {
               </li>
               <li>
                 <NavLink
-                  to="/admin-dashboard/my-profile"
+                  to="/dashboard/my-profile"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="MyProfile"
                 >
@@ -100,7 +100,7 @@ const DashboardLayout = () => {
               </li>
                <li>
                 <NavLink
-                  to="/admin-dashboard/my-favorites"
+                  to="/dashboard/my-favorites"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="MyFavorites"
                 >
@@ -118,4 +118,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default AdminDashboardLayout;

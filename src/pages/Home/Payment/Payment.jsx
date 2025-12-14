@@ -9,42 +9,6 @@ const Payment = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  //   const handlePayment = async () => {
-  //     const paymentInfo = {
-  //       name: "Premium Membership – Lifetime",
-  //       description: "Unlimited lessons, ad-free, premium features",
-  //       price: 1500,
-  //       quantity: 1,
-  //       email: user?.email,
-  //       image: "https://i.ibb.co/SX1Tq2W/premium.png",
-  //     };
-
-  //     const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-  //     window.location.href = res.data.url;
-  //   };
-
-  // const handlePayment = async () => {
-  //   try {
-  //     const paymentInfo = {
-  //       name: "Premium Membership – Lifetime",
-  //       description: "Unlimited lessons, ad-free, premium features",
-  //       price: 1500,
-  //       quantity: 1,
-  //       email: user?.email,
-  //       image: "https://i.ibb.co/SX1Tq2W/premium.png",
-  //     };
-
-  //     const res = await axiosSecure.post(
-  //       "/payment-checkout-session",
-  //       paymentInfo
-  //     );
-  //     window.location.href = res.data.url;
-  //   } catch (error) {
-  //     console.error("Payment error:", error);
-  //     toast.error("Failed to start payment. Please try again.");
-  //   }
-  // };
-
   const handlePayment = async () => {
   try {
     const paymentInfo = {
@@ -163,6 +127,7 @@ const Payment = () => {
         <h1 className="my-5 text-3xl text-primary">Payment Status: {paymentStatus}</h1>
         <h1 className="my-5 text-3xl text-primary">Role: {role}</h1>
       </div>
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 };

@@ -3,6 +3,8 @@ import Banner from "../Banner/Banner";
 import useRole from "../../../Hooks/useRole";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
 import PublicLessons from '../../Shared/PublicLessons/PublicLessons'
+import TopContributors from '../TopContributors/TopContributors'
+import MostSavedLessons from '../MostSavedLessons/MostSavedLessons';
 
 const Home = () => {
   const [role, isRoleLoading] = useRole();
@@ -13,12 +15,18 @@ const Home = () => {
 
   return (
     <div className="">
+      <TopContributors></TopContributors>
+      <MostSavedLessons></MostSavedLessons>
       <PublicLessons></PublicLessons>
       <Banner />
-      {/* <Brands></Brands> */}
-      {/* <Reviews></Reviews> */}
+      
+      
     </div>
   );
 };
 
 export default Home;
+
+
+
+

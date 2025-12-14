@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { FaLock } from "react-icons/fa";
+import { FaHeart, FaLock } from "react-icons/fa";
 import { MdLockPerson } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { BiLike } from "react-icons/bi";
+import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa";
+import { TbHeart, TbHeartMinus, TbHeartPlus } from "react-icons/tb";
+
 import {
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
   FacebookIcon,
-  TwitterIcon,
   WhatsappIcon,
+  XIcon,
 } from "react-share";
+import { RiHeartAddFill } from "react-icons/ri";
 
 const LessonCard = ({ lesson }) => {
   const { user, role } = useAuth();
@@ -31,7 +36,6 @@ const LessonCard = ({ lesson }) => {
 
   const [likesCount, setLikesCount] = useState(lesson.likesCount || 0);
   const [favoritesCount] = useState(lesson.favoritesCount || 0);
-  const [viewsCount] = useState(lesson.viewsCount || 0);
 
   const handleLikeClick = () => {
     if (!userIsLoggedIn) {
@@ -57,6 +61,43 @@ const LessonCard = ({ lesson }) => {
         }
       })
       .catch(() => toast.error("Failed to update like"));
+  };
+
+  const [favorited, setFavorited] = useState(() =>
+    user ? lesson.favorites?.includes(user.email) : false
+  );
+
+  const [favoritesCountState, setFavoritesCountState] = useState(
+    lesson.favoritesCount || 0
+  );
+
+  const handleAddToFavoriteClick = () => {
+    if (!userIsLoggedIn) {
+      toast.warning("Please log in to add to favorites");
+      navigate("/auth/login");
+      return;
+    }
+
+    fetch(`http://localhost:3000/lessons/${lesson._id}/favorite`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setFavorited(data.favorited);
+          setFavoritesCountState((prev) => prev + data.favoritesCountChange);
+          toast.success(
+            data.favorited ? "Added to favorites" : "Removed from favorites"
+          );
+        } else {
+          toast.error("Failed to update favorites");
+        }
+      })
+      .catch(() => toast.error("Failed to update favorites"));
   };
 
   const handleReportClick = () => {
@@ -162,34 +203,51 @@ const LessonCard = ({ lesson }) => {
       </div>
 
       <div className="mt-auto">
-        <div className="flex items-center gap-4 mb-4 text-sm">
-          <button
-            onClick={handleLikeClick}
-            className="flex items-center gap-1 "
-          >
-            <span className="text-red-500">{liked ? "❤️" : "🤍"}</span>{" "}
-            {likesCount} Likes
-          </button>
+        <div className="flex items-center justify-between mb-4 text-sm w-full">
+          <div className="flex items-center gap-4 ml-2">
+            <button
+              onClick={handleLikeClick}
+              className="flex items-center gap-1"
+            >
+              {liked ? (
+                <FaThumbsUp className="text-primary" />
+              ) : (
+                <FaRegThumbsUp className="text-muted" />
+              )}
+              <span>{likesCount}</span>
+            </button>
 
-          <span>🔖 {favoritesCount} Favorites</span>
-          <span>👁️ {viewsCount} Views</span>
-          <div className="flex items-center gap-2">
+            <button
+              onClick={handleAddToFavoriteClick}
+              className="flex items-center gap-1"
+            >
+              {favorited ? (
+                <RiHeartAddFill className="text-secondary" />
+              ) : (
+                <RiHeartAddFill className="text-muted" />
+              )}
+              <span>{favoritesCountState}</span>
+            </button>
+
+            <div>👁️ {lesson.views}</div>
+          </div>
+          <div className="flex items-center gap-2 mr-3">
             <FacebookShareButton
               url={`https://your-domain.com/lesson/${lesson._id}`}
             >
-              <FacebookIcon size={15} round />
+              <FacebookIcon size={18} round />
             </FacebookShareButton>
 
             <TwitterShareButton
               url={`https://your-domain.com/lesson/${lesson._id}`}
             >
-              <TwitterIcon size={15} round />
+              <XIcon size={18} round />
             </TwitterShareButton>
 
             <WhatsappShareButton
               url={`https://your-domain.com/lesson/${lesson._id}`}
             >
-              <WhatsappIcon size={15} round />
+              <WhatsappIcon size={18} round />
             </WhatsappShareButton>
           </div>
         </div>

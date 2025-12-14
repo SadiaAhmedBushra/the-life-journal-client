@@ -5,24 +5,6 @@ import { saveOrUpdateUser } from "../../../utils";
 
 const SocialLogin = () => {
   const { signInGoogle } = useAuth();
-  // const handleGoogleSignIn = () => {
-  //  const {user} = signInGoogle()
-  //     .then((result) => {
-  //             await saveOrUpdateUser({
-  //               name: user?.displayName,
-  //               email: user?.email,
-  //               photo: user?.photoURL,
-  //             });
-  //       console.log(result.user);
-  //       toast.success("Logged in with Google successfully.");
-
-  //     })
-
-  //     .catch((error) => {
-  //       console.log(error);
-  //       toast.error(`Google Sign-In failed: ${error.message}`);
-  //     });
-  // };
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInGoogle();

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();

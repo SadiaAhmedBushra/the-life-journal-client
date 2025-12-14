@@ -37,6 +37,44 @@ const EditLesson = () => {
     }
   }, [role, isRoleLoading, setValue]);
 
+//   useEffect(() => {
+//     axiosSecure
+//       .get(`/lessons/${id}`)
+//       .then((res) => {
+//         reset(res.data);
+//       })
+//       .catch((error) => {
+//         toast.error("Failed to load lesson data");
+//       })
+//       .finally(() => setLoading(false));
+//   }, [id, axiosSecure, reset]);
+
+//   const onSubmit = (data) => {
+//     const updatedData = {
+//       ...data,
+//       updatedAt: new Date(),
+//     };
+
+//     axiosSecure
+//       .put(`/lessons/${id}`, updatedData)
+//       .then((res) => {
+//         toast.success("Lesson updated successfully!");
+// navigate(`/lesson/${id}`);
+//       })
+//       .catch((error) => {
+//         toast.error("Failed to update lesson");
+//       });
+//   };
+
+
+  // ✅ GREEN TICK: default accessLevel for free users (unchanged logic)
+  useEffect(() => {
+    if (!isRoleLoading && role === "freeUser") {
+      setValue("accessLevel", "free");
+    }
+  }, [role, isRoleLoading, setValue]);
+
+  // ✅ GREEN TICK: handle unauthorized (403) lesson access
   useEffect(() => {
     axiosSecure
       .get(`/lessons/${id}`)
@@ -44,10 +82,15 @@ const EditLesson = () => {
         reset(res.data);
       })
       .catch((error) => {
-        toast.error("Failed to load lesson data");
+        if (error?.response?.status === 403) {
+          toast.error("You are not allowed to edit this lesson");
+          navigate("/"); // redirect safely
+        } else {
+          toast.error("Failed to load lesson data");
+        }
       })
       .finally(() => setLoading(false));
-  }, [id, axiosSecure, reset]);
+  }, [id, axiosSecure, reset, navigate]);
 
   const onSubmit = (data) => {
     const updatedData = {
@@ -57,12 +100,17 @@ const EditLesson = () => {
 
     axiosSecure
       .put(`/lessons/${id}`, updatedData)
-      .then((res) => {
+      .then(() => {
         toast.success("Lesson updated successfully!");
-navigate(`/lesson/${id}`);
+        navigate(`/lesson/${id}`);
       })
       .catch((error) => {
-        toast.error("Failed to update lesson");
+        // ✅ GREEN TICK: handle forbidden edit (owner/admin enforced by backend)
+        if (error?.response?.status === 403) {
+          toast.error("You are not allowed to update this lesson");
+        } else {
+          toast.error("Failed to update lesson");
+        }
       });
   };
 

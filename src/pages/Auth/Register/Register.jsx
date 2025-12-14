@@ -15,8 +15,9 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const from = location.state?.from?.pathname || "/";
-    const {
+  // const from = location.state?.from?.pathname || "/";
+ const from = "/dashboard";
+     const {
     register,
     handleSubmit,
     formState: { errors },

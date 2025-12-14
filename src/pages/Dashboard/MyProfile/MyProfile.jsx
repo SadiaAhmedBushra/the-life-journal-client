@@ -2,19 +2,32 @@ import React from "react";
 import formbg from "../../../assets/formbg1.webp";
 import useRole from "../../../Hooks/useRole";
 import { Link } from "react-router";
-import { MdOutlineWorkspacePremium } from "react-icons/md";
+import { MdAdminPanelSettings, MdOutlineWorkspacePremium } from "react-icons/md";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
+import LessonCard from "../../Shared/LessonCard/LessonCard";
 
 const MyProfile = () => {
   const { user } = useAuth();
   const [role, isRoleLoading] = useRole();
-  console.log("Role:", role);
 
   const axiosSecure = useAxiosSecure();
 
-  const { data: lessonData = [], refetch } = useQuery({
+  const {
+    data: favorites = [],
+    isLoading,
+    refetch: refetchFavorites,
+  } = useQuery({
+    queryKey: ["my-favorites", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/favorites/${user.email}`);
+      return res.data;
+    },
+  });
+
+  const { data: lessonData = [], refetch: refetchLessons } = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -22,8 +35,6 @@ const MyProfile = () => {
       return res.data;
     },
   });
-
-  // <h1>Number of lessons added: {lessonData.length}</h1>
 
   return (
     <div
@@ -47,6 +58,13 @@ const MyProfile = () => {
               <div className="flex items-center gap-1 btn-primary text-white ">
                 <MdOutlineWorkspacePremium className="text-2xl" />
                 <span>Premium User</span>
+              </div>
+            )}
+
+            {role === "admin" && (
+              <div className="flex items-center gap-1 btn-primary text-white ">
+                <MdAdminPanelSettings className="text-2xl" />
+                <span>Admin</span>
               </div>
             )}
 
@@ -84,7 +102,7 @@ const MyProfile = () => {
                   <p className="flex flex-col text-muted">
                     Lessons Saved
                     <span className="font-bold text-primary text-xl">
-                      lesson saved
+                      {favorites.length}
                     </span>
                   </p>
                 </div>
@@ -100,6 +118,25 @@ const MyProfile = () => {
               </Link>
             </div>
           </div>
+        </div>
+
+        <div className="mt-10">
+          <h4 className="text-2xl font-semibold text-primary mb-6 text-center">
+            Lessons Created
+          </h4>
+          {lessonData.length === 0 ? (
+            <p className="text-center text-muted">No lessons created yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
+              {[...lessonData]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .map((lesson) => (
+                  <div className="bg-white rounded-lg shadow-md">
+                    <LessonCard key={lesson._id} lesson={lesson} />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

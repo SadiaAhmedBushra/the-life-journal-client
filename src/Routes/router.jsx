@@ -18,6 +18,12 @@ import PaymentCancelled from "../pages/Home/Payment/PaymentCancelled";
 import ErrorPage from "../Components/ErrorPage";
 import PublicLessons from "../pages/Shared/PublicLessons/PublicLessons";
 import ReportLesson from "../pages/Shared/ReportLesson/ReportLesson";
+import AuthorLessons from "../pages/Shared/AuthorLessons/AuthorLessons";
+import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
+import MyDashboardHome from "../pages/Dashboard/MyDashboardHome/MyDashboardHome";
+import AdminRoute from "./AdminRoute";
+import AdminDashboardHome from "../pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
+import AdminDashboardLayout from "../Layouts/AdminDashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -42,9 +48,14 @@ export const router = createBrowserRouter([
         path: "payment",
         element: (
           <Payment />
-          // <PrivateRoute>
-
-          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile/:email",
+        element: (
+          <PrivateRoute>
+            <AuthorLessons></AuthorLessons>
+          </PrivateRoute>
         ),
       },
       {
@@ -83,6 +94,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        element: <MyDashboardHome />,
+      },
+      {
         path: "/dashboard/add-lesson",
         element: <AddLesson />,
       },
@@ -101,6 +116,56 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/update-my-profile",
         element: <UpdateMyProfile />,
+      },
+      {
+        path: "/dashboard/my-favorites",
+        element: <MyFavorites />,
+      },
+      {
+        path: "/dashboard/admin",
+        element: (
+          <AdminRoute>
+            <AdminDashboardHome />
+          </AdminRoute>
+        ),
+      },
+    ],
+  },
+    {
+    path: "admin-dashboard",
+    element: (
+      <AdminRoute>
+        <AdminDashboardLayout />
+      </AdminRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminDashboardHome />,
+      },
+      {
+        path: "/admin-dashboard/add-lesson",
+        element: <AddLesson />,
+      },
+      {
+        path: "/admin-dashboard/my-lessons",
+        element: <MyLessons />,
+      },
+      {
+        path: "/admin-dashboard/my-profile/edit-lesson/:id",
+        element: <EditLesson />,
+      },
+      {
+        path: "/admin-dashboard/my-profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "/admin-dashboard/update-my-profile",
+        element: <UpdateMyProfile />,
+      },
+      {
+        path: "/admin-dashboard/my-favorites",
+        element: <MyFavorites />,
       },
     ],
   },

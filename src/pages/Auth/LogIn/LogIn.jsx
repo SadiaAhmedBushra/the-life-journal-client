@@ -1,61 +1,77 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import skyImg from "../../../assets/login-register-page-img.webp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { saveOrUpdateUser } from "../../../utils";
+import LoadingSpinner from "../../../Components/LoadingSpinner";
+import useRole from "../../../Hooks/useRole";
 
 const LogIn = () => {
   const { signInUser, user, loading } = useAuth();
+  const [role, roleLoading] = useRole(); 
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
+  // const from = location.state?.from?.pathname || "/";
+// default fallback for normal users
+const defaultRedirect = "/dashboard";
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  if (loading) return <div>Loading...</div>;
-  if (user) return <Navigate to={from} replace={true} />;
+if (loading || roleLoading) return <LoadingSpinner />;
 
-  // const handleLogIn = (data) => {
-  //   signInUser(data.email, data.password)
-  //     .then((result) => {
-  //             await saveOrUpdateUser({
-  //               name: data.name,
-  //               email: data.email,
-  //               photo: photoURL,
-  //             });
-  //      setTimeout(() => {
-  //       navigate(from, { replace: true });
-  //     }, 800);
-  //   })
-  //     .catch((error) => {
-  //       toast.error(`Sorry! Login failed: ${error.message}`);
-  //     });
-  // };
+ if (user && role) {
+    if (role === "admin") {
+      return <Navigate to="/admin-dashboard" replace />;
+    }
+    return <Navigate to={defaultRedirect} replace />;
+  }
 
   const handleLogIn = async (data) => {
     try {
       const result = await signInUser(data.email, data.password);
+
       await saveOrUpdateUser({
         name: data.name,
         email: data.email,
       });
-      setTimeout(() => {
-        navigate(from, { replace: true });
-      }, 800);
+
       toast.success("Welcome back!");
+      // No navigation here! Wait for user & role to update and trigger redirect
     } catch (error) {
       toast.error(`Sorry! Login failed: ${error.message}`);
     }
   };
 
-  const onError = (errors) => {
+//   const handleLogIn = async (data) => {
+//     try {
+//       const result = await signInUser(data.email, data.password);
+//       await saveOrUpdateUser({
+//         name: data.name,
+//         email: data.email,
+//       });
+//       setTimeout(() => {
+//       if (role === "admin") {
+//         navigate("/admin-dashboard", { replace: true });
+//       } else {
+//         navigate(defaultRedirect, { replace: true });
+//       }
+//     }, 800);
+//   } catch (error) {
+//     toast.error(`Sorry! Login failed: ${error.message}`);
+//   }
+// };
+
+
+
+
+const onError = (errors) => {
     if (errors.email) {
       toast.error("Email is required and must be valid");
     }
