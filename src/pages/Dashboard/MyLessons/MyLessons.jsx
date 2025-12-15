@@ -16,6 +16,7 @@ const MyLessons = () => {
   const axiosSecure = useAxiosSecure();
   const [role, isRoleLoading] = useRole();
 
+    // Query to fetch lessons
   const { data: lessonData = [], refetch } = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
@@ -24,31 +25,6 @@ const MyLessons = () => {
       return res.data;
     },
   });
-
-  // const handleDeleteLesson = (lessonId) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       axiosSecure.delete(`/lessons/${lessonId}`).then((res) => {
-  //         if (res.data.deletedCount > 0) {
-  //           refetch();
-  //           Swal.fire({
-  //             title: "Deleted!",
-  //             text: "Your Lesson has been deleted.",
-  //             icon: "success",
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  // };
 
   const handleDeleteLesson = (lessonId) => {
     Swal.fire({
@@ -74,7 +50,6 @@ const MyLessons = () => {
             }
           })
           .catch((err) => {
-            // ✅ GREEN TICK: Added proper 403 error handling
             if (err.response?.status === 403) {
               toast.error("You are not allowed to delete this lesson");
             } else {

@@ -23,6 +23,8 @@ import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
 import MyDashboardHome from "../pages/Dashboard/MyDashboardHome/MyDashboardHome";
 import AdminRoute from "./AdminRoute";
 import AdminDashboard from "../Components/AdminDashboard/AdminDashboard";
+import ManageUsers from "../pages/Admin/ManageUsers";
+import AdminDashboardHome from "../pages/Admin/AdminDashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -124,7 +126,15 @@ export const router = createBrowserRouter([
         path: "/dashboard/admin",
         element: (
           <AdminRoute>
-            <AdminDashboard />
+            <AdminDashboardHome />
+          </AdminRoute>
+        ),
+      },
+      {
+        path:"/dashboard/admin/manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers />
           </AdminRoute>
         ),
       },
