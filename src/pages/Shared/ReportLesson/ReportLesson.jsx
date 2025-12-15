@@ -9,16 +9,28 @@ const ReportLesson = () => {
   const { user } = useAuth();
 
   const [reason, setReason] = useState("");
+  const [otherReason, setOtherReason] = useState("");
+
+  if (!user) {
+    return <p className="p-4">Please log in to report this lesson.</p>;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const finalReason = reason === "Other" ? otherReason.trim() : reason;
+
+    if (!finalReason) {
+      toast.error("Please provide a reason.");
+      return;
+    }
 
     fetch(`http://localhost:3000/lessons/${id}/report`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         reporterUserId: user.email,
-        reason,
+        reason: finalReason,
       }),
     })
       .then((res) => res.json())
@@ -26,8 +38,11 @@ const ReportLesson = () => {
         if (data.success) {
           toast.success("Report submitted");
           navigate("/public-lessons");
+        } else {
+          toast.error(data.error || "Failed to submit report");
         }
-      });
+      })
+      .catch(() => toast.error("Failed to submit report"));
   };
 
   return (
@@ -44,13 +59,24 @@ const ReportLesson = () => {
           required
         >
           <option value="">Select one</option>
-          <option>Inappropriate Content</option>
-          <option>Hate Speech or Harassment</option>
-          <option>Misleading or False Information</option>
-          <option>Spam or Promotional Content</option>
-          <option>Sensitive or Disturbing Content</option>
-          <option>Other</option>
+          <option value="Inappropriate Content">Inappropriate Content</option>
+          <option value="Hate Speech or Harassment">Hate Speech or Harassment</option>
+          <option value="Misleading or False Information">Misleading or False Information</option>
+          <option value="Spam or Promotional Content">Spam or Promotional Content</option>
+          <option value="Sensitive or Disturbing Content">Sensitive or Disturbing Content</option>
+          <option value="Other">Other</option>
         </select>
+
+        {reason === "Other" && (
+          <textarea
+            className="w-full border p-2 rounded mb-4"
+            rows={3}
+            placeholder="Please specify..."
+            value={otherReason}
+            onChange={(e) => setOtherReason(e.target.value)}
+            required
+          />
+        )}
 
         <button className="btn btn-primary w-full" type="submit">
           Submit Report

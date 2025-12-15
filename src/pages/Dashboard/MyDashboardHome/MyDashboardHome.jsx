@@ -51,12 +51,12 @@ const MyDashboardHome = () => {
     return <LoadingSpinner />;
   }
 
-  // Sort lessons by created date desc to get recently added
+  // Sort lessons to get recently added
   const recentLessons = [...lessons]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 3);
 
-  // Group lessons by date (YYYY-MM-DD)
+  // Group lessons by date 
   const contributionsMap = lessons.reduce((acc, lesson) => {
     const createdAt = lesson.createdAt || lesson.created_at;
     if (!createdAt) return acc;

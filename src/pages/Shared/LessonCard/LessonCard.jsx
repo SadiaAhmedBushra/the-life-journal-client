@@ -5,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { BiLike } from "react-icons/bi";
 import { FaThumbsUp, FaRegThumbsUp } from "react-icons/fa";
-import { TbHeart, TbHeartMinus, TbHeartPlus } from "react-icons/tb";
 
 import {
   FacebookShareButton,

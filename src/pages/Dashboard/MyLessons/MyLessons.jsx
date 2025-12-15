@@ -66,6 +66,7 @@ const MyLessons = () => {
 
   return (
     <div className="px-3 lg:px-0 my-10">
+      <h1 className="text-3xl font-bold mb-8 text-center text-primary">My Lessons</h1>
       <h1 className="text-lg font-semibold mb-4 lg:text-2xl">
         Number of lessons added: {lessonData.length}
       </h1>
