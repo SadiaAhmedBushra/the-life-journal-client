@@ -1,16 +1,24 @@
 import React from "react";
-import { IoHome } from "react-icons/io5";
-import { Link, NavLink } from "react-router";
 import { Outlet } from "react-router";
 import Navbar from "../pages/Shared/Navbar/Navbar";
-import { MdDashboard } from "react-icons/md";
 import Footer from "../pages/Shared/Footer/Footer";
-import { RiStickyNoteAddFill } from "react-icons/ri";
-import { CgProfile } from "react-icons/cg";
-import { BsBookmarkHeartFill } from "react-icons/bs";
-
+import LoadingSpinner from "../../src/Components/LoadingSpinner";
+import useRole from "../Hooks/useRole";
+import UserDashboard from "../Components/UserDashboard/UserDashboard";
+import AdminDashboard from "../Components/AdminDashboard/AdminDashboard";
+import { Link, NavLink } from "react-router";
 
 const DashboardLayout = () => {
+  const [role, isRoleLoading] = useRole();
+
+  if (isRoleLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <LoadingSpinner></LoadingSpinner>{" "}
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="drawer lg:drawer-open">
@@ -40,8 +48,6 @@ const DashboardLayout = () => {
 
             <Navbar></Navbar>
           </nav>
-
-          {/* Page content here */}
           <Outlet />
         </div>
 
@@ -51,64 +57,18 @@ const DashboardLayout = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-            {/* Sidebar content here */}
-            <ul className="menu w-full grow">
-              {/* List item */}
+          <div
+            className="
+      bg-base-200 min-h-full
+      transition-all duration-300 ease-in-out 
+      w-64 mr-5
+      is-drawer-close:w-14 is-drawer-open:w-64
+    "
+          >
+            <ul className="menu p-4 w-full">
+              {(role === "freeUser" || role === "Premium") && <UserDashboard />}
 
-              <li>
-                <Link
-                  to="/"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
-                >
-                  <IoHome className="text-primary size-6" />
-                  <span className="is-drawer-close:hidden">Homepage</span>
-                </Link>
-              </li>
-              {/* Our dashboard links */}
-              <li>
-                <NavLink
-                  to="/admin-dashboard/add-lesson"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="AddLesson"
-                >
-                  <RiStickyNoteAddFill className="text-primary size-6" />
-
-                  <span className="is-drawer-close:hidden">Add Lesson </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin-dashboard/my-lessons"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="MyLessons"
-                >
-                  <MdDashboard className="text-primary size-6" />
-                  <span className="is-drawer-close:hidden">My Lessons </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/admin-dashboard/my-profile"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="MyProfile"
-                >
-                  <CgProfile className="text-primary size-6" />
-                  <span className="is-drawer-close:hidden">My Profile</span>
-                </NavLink>
-              </li>
-               <li>
-                <NavLink
-                  to="/admin-dashboard/my-favorites"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="MyFavorites"
-                >
-                  <BsBookmarkHeartFill className="text-primary size-6" />
-
-                  <span className="is-drawer-close:hidden">Add Favorites </span>
-                </NavLink>
-              </li>
+              {role === "admin" && <AdminDashboard />}
             </ul>
           </div>
         </div>

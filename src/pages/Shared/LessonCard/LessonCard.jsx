@@ -25,7 +25,7 @@ const LessonCard = ({ lesson }) => {
 
   const userIsLoggedIn = !!user;
   const isPremiumLesson = lesson.accessLevel === "premium";
-  const userIsPremium = role === "Premium";
+  const userIsPremium = role === "Premium" || "admin";
 
   const showBlurred =
     isPremiumLesson && (!userIsLoggedIn || (userIsLoggedIn && !userIsPremium));

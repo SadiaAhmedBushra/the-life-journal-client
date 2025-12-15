@@ -22,8 +22,7 @@ import AuthorLessons from "../pages/Shared/AuthorLessons/AuthorLessons";
 import MyFavorites from "../pages/Dashboard/MyFavorites/MyFavorites";
 import MyDashboardHome from "../pages/Dashboard/MyDashboardHome/MyDashboardHome";
 import AdminRoute from "./AdminRoute";
-import AdminDashboardHome from "../pages/AdminDashboard/AdminDashboardHome/AdminDashboardHome";
-import AdminDashboardLayout from "../Layouts/AdminDashboardLayout";
+import AdminDashboard from "../Components/AdminDashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -125,47 +124,9 @@ export const router = createBrowserRouter([
         path: "/dashboard/admin",
         element: (
           <AdminRoute>
-            <AdminDashboardHome />
+            <AdminDashboard />
           </AdminRoute>
         ),
-      },
-    ],
-  },
-    {
-    path: "admin-dashboard",
-    element: (
-      <AdminRoute>
-        <AdminDashboardLayout />
-      </AdminRoute>
-    ),
-    children: [
-      {
-        index: true,
-        element: <AdminDashboardHome />,
-      },
-      {
-        path: "/admin-dashboard/add-lesson",
-        element: <AddLesson />,
-      },
-      {
-        path: "/admin-dashboard/my-lessons",
-        element: <MyLessons />,
-      },
-      {
-        path: "/admin-dashboard/my-profile/edit-lesson/:id",
-        element: <EditLesson />,
-      },
-      {
-        path: "/admin-dashboard/my-profile",
-        element: <MyProfile />,
-      },
-      {
-        path: "/admin-dashboard/update-my-profile",
-        element: <UpdateMyProfile />,
-      },
-      {
-        path: "/admin-dashboard/my-favorites",
-        element: <MyFavorites />,
       },
     ],
   },

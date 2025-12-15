@@ -28,7 +28,7 @@ if (loading || roleLoading) return <LoadingSpinner />;
 
  if (user && role) {
     if (role === "admin") {
-      return <Navigate to="/admin-dashboard" replace />;
+      return <Navigate to="/dashboard/admin" replace />;
     }
     return <Navigate to={defaultRedirect} replace />;
   }
