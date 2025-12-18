@@ -3,8 +3,9 @@ import { Link, NavLink } from "react-router";
 
 import { SiHomepage } from "react-icons/si";
 import UserDashboard from "../UserDashboard/UserDashboard";
-import { MdManageAccounts } from "react-icons/md";
+import { MdAdminPanelSettings, MdManageAccounts } from "react-icons/md";
 import { TbFileSettings } from "react-icons/tb";
+import { FaFlag } from "react-icons/fa";
 
 const AdminDashboard = () => {
   return (
@@ -37,6 +38,26 @@ const AdminDashboard = () => {
         >
           <TbFileSettings className="text-primary size-7" />
           <span className="is-drawer-close:hidden">Manage Lessons</span>
+        </Link>
+      </li>
+        <li>
+        <Link
+          to="/dashboard/admin/reported-lessons"
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="ReportedLessons"
+        >
+          <FaFlag className="text-primary size-6" />
+          <span className="is-drawer-close:hidden">Reported Lessons</span>
+        </Link>
+      </li>
+       <li>
+        <Link
+          to="/dashboard/admin/admin-profile"
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="AdminProfile"
+        >
+          <MdAdminPanelSettings className="text-primary size-7" />
+          <span className="is-drawer-close:hidden">Admin Profile</span>
         </Link>
       </li>
       

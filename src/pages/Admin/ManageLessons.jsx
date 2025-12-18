@@ -141,7 +141,6 @@ const ManageLessons = () => {
               <th>Privacy</th>
               <th>Flagged</th>
               <th>Report Count</th>
-              {/* <th>Reporters</th>         */}
               <th>Featured</th>
               <th>Reviewed</th>
               <th>Created At</th>
@@ -158,7 +157,6 @@ const ManageLessons = () => {
                 <td>{lesson.privacy}</td>
                 <td>{lesson.isFlagged ? "Yes" : "No"}</td>
                 <td>{lesson.ReportCount ?? 0}</td>
-                {/* <td>{lesson.Reporters?.join(", ") || "-"}</td>   */}
                 <td>
                   <input
                     type="checkbox"
@@ -188,7 +186,7 @@ const ManageLessons = () => {
                 <td>{new Date(lesson.createdAt).toLocaleDateString()}</td>
                 <td className="flex gap-2">
                   <button
-                    className="btn btn-error btn-xs lg:btn-sm"
+                    className="btn btn-primary btn-xs lg:btn-lg"
                     onClick={() => handleDelete(lesson._id)}
                   >
                     Delete

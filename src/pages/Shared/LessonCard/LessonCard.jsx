@@ -23,7 +23,7 @@ const LessonCard = ({ lesson }) => {
 
   const userIsLoggedIn = !!user;
   const isPremiumLesson = lesson.accessLevel === "premium";
-  const userIsPremium = role === "Premium" || "admin";
+const userIsPremium = role === "Premium" || role === "admin";
 
   const showBlurred =
     isPremiumLesson && (!userIsLoggedIn || (userIsLoggedIn && !userIsPremium));
@@ -139,25 +139,25 @@ const LessonCard = ({ lesson }) => {
     >
       {showBlurred && (
         <div
-          className="bg-primary/50 backdrop-blur-sm absolute inset-0 flex flex-col justify-center items-center text-white text-center px-6 gap-4"
+          className="bg-primary/10 backdrop-blur-sm absolute inset-0 flex flex-col justify-center items-center text-center px-6 gap-4"
           style={{ zIndex: 10 }}
         >
-          <MdLockPerson size={48} />
-          <p className="text-lg font-semibold">
+          <MdLockPerson className=" text-primary" size={48} />
+          <p className="text-lg font-semibold text-primary">
             Premium Lesson – Upgrade to view
           </p>
 
           {userIsLoggedIn ? (
             <button
               onClick={() => navigate("/payment")}
-              className="btn btn-primary px-6 py-2 rounded"
+              className="btn btn-secondary px-6 py-2 rounded"
             >
               Upgrade Now
             </button>
           ) : (
             <button
               onClick={() => navigate("/auth/login")}
-              className="btn btn-primary px-6 py-2 rounded"
+              className="btn btn-secondary px-6 py-2 rounded"
             >
               Log In to Upgrade
             </button>

@@ -1,9 +1,6 @@
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-// import b1Img from "../../../assets/bannerslider1.jpg";
-// import b2Img from "../../../assets/bannerslider5.jpeg";
-// import b3Img from "../../../assets/bannerslider4.jpg";
 import b1Img from "../../../assets/write3.jpg";
 import b2Img from "../../../assets/growth2.jpg";
 import b3Img from "../../../assets/learn.jpg";
@@ -34,7 +31,7 @@ const Banner = () => {
               Capture your experiences, wisdom, and reflections in one secure
               digital space.
             </p>
-            <Link to="/add-lesson" className="btn btn-primary">
+            <Link to="/dashboard/add-lesson" className="btn btn-primary">
               Start Writing
             </Link>
           </div>
@@ -75,7 +72,7 @@ const Banner = () => {
             <p className="text-lg mb-6 text-[#C9C8C7]">
               Explore real wisdom shared by people all over the world.
             </p>
-            <Link to="/lessons" className="btn btn-primary">
+            <Link to="/public-lessons" className="btn btn-primary">
               Explore Lessons
             </Link>
           </div>

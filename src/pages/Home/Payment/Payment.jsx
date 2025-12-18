@@ -2,7 +2,7 @@ import React from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import formbg from "../../../assets/formbg1.webp";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 
 const Payment = () => {
@@ -124,8 +124,6 @@ const Payment = () => {
           Upgrade to Premium (৳1500)
         </button>
 
-        <h1 className="my-5 text-3xl text-primary">Payment Status: {paymentStatus}</h1>
-        <h1 className="my-5 text-3xl text-primary">Role: {role}</h1>
       </div>
       <ToastContainer position="top-right" autoClose={2000} />
     </div>

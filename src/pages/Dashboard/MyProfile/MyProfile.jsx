@@ -28,14 +28,23 @@ const MyProfile = () => {
   });
 
   const { data: lessonData = [], refetch: refetchLessons } = useQuery({
-    queryKey: ["my-lessons", user?.email],
-    enabled: !!user?.email,
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons?email=${user?.email}`);
-      return res.data;
-    },
-  });
+  queryKey: ["my-lessons"],
+  enabled: !!user?.email,
+  queryFn: async () => {
+    const res = await axiosSecure.get(`/my-lessons`);
+    return res.data;
+  },
+});
 
+    const { data: authorLessonsCountData = { lessonsCreated: 0 } } = useQuery({
+      queryKey: ["author-lessons-count", user?.email],
+      queryFn: async () => {
+        if (!user?.email) return { lessonsCreated: 0 };
+        const res = await axiosSecure.get(`/lessons/count/${user?.email}`);
+        return res.data;
+      },
+      enabled: !!user?.email,
+    });
   return (
     <div
       className="max-w-6xl mx-auto my-10 p-6 lg:p-8 rounded-lg bg-cover bg-center flex justify-center items-center"
@@ -95,9 +104,9 @@ const MyProfile = () => {
                 <div className="flex flex-col justify-between items-start gap-6 w-full lg:w-1/2">
                   <p className="flex flex-col text-muted">
                     Lessons Created
-                    <span className="font-bold text-primary text-xl">
-                      {lessonData.length}
-                    </span>
+                     <span className="font-bold text-primary text-xl">
+            {authorLessonsCountData.lessonsCreated} 
+          </span>
                   </p>
                   <p className="flex flex-col text-muted">
                     Lessons Saved

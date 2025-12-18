@@ -26,6 +26,8 @@ import AdminDashboard from "../Components/AdminDashboard/AdminDashboard";
 import ManageUsers from "../pages/Admin/ManageUsers";
 import AdminDashboardHome from "../pages/Admin/AdminDashboardHome";
 import ManageLessons from "../pages/Admin/ManageLessons";
+import ReportedLessons from "../pages/Admin/ReportedLessons";
+import AdminProfile from "../pages/Admin/AdminProfile";
 
 export const router = createBrowserRouter([
   {
@@ -48,9 +50,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment",
-        element: (
-          <Payment />
-        ),
+        element: <Payment />,
       },
       {
         path: "/profile/:email",
@@ -132,7 +132,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path:"/dashboard/admin/manage-users",
+        path: "/dashboard/admin/manage-users",
         element: (
           <AdminRoute>
             <ManageUsers />
@@ -140,12 +140,20 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path:"/dashboard/admin/manage-lessons",
+        path: "/dashboard/admin/manage-lessons",
         element: (
           <AdminRoute>
-            <ManageLessons /> 
+            <ManageLessons />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/admin/reported-lessons",
+        element: <AdminRoute><ReportedLessons /></AdminRoute>,
+      },
+      {
+        path: "/dashboard/admin/admin-profile",
+        element: <AdminRoute><AdminProfile /></AdminRoute>,
       },
     ],
   },

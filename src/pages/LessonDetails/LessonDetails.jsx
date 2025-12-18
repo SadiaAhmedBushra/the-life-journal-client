@@ -7,9 +7,7 @@ import {
   FaLock,
   FaCalendarAlt,
   FaEye,
-  FaHeart,
   FaRegBookmark,
-  FaBookmark,
 } from "react-icons/fa";
 import {
   FacebookShareButton,
@@ -49,15 +47,16 @@ const LessonDetails = () => {
     enabled: !!id,
   });
 
-  const { data: authorLessonsCount = 0 } = useQuery({
-    queryKey: ["author-lessons-count", lesson.email],
-    queryFn: async () => {
-      if (!lesson.email) return 0;
-      const res = await axiosSecure.get(`/lessons?email=${lesson.email}`);
-      return res.data.length;
-    },
-    enabled: !!lesson.email,
-  });
+const { data: authorLessonsCount = 0 } = useQuery({
+  queryKey: ["author-lessons-count", lesson.email],
+  queryFn: async () => {
+    if (!lesson.email) return 0;
+    const res = await axiosSecure.get(`/lessons/count/${lesson.email}`);
+    return res.data.lessonsCreated;
+  },
+  enabled: !!lesson.email,
+});
+
 
   useEffect(() => {
     if (lesson && user) {
@@ -83,17 +82,14 @@ const LessonDetails = () => {
     enabled: !!id,
   });
 
-  const { data: similarLessons = [] } = useQuery({
-    queryKey: ["similar-lessons", lesson.category, lesson.emotionalTone],
-    queryFn: async () => {
-      if (!lesson.category || !lesson.emotionalTone) return [];
-      const res = await axiosSecure.get(
-        `/lessons?category=${lesson.category}&emotionalTone=${lesson.emotionalTone}&limit=20`
-      );
-      return res.data.filter((l) => l._id !== id).slice(0, 6);
-    },
-    enabled: !!lesson.category || !!lesson.emotionalTone,
-  });
+const { data: similarLessons = [] } = useQuery({
+  queryKey: ["similar-lessons", id],
+  queryFn: async () => {
+    const res = await axiosSecure.get(`/lessons/${id}/similar`);
+    return res.data;
+  },
+  enabled: !!id,
+});
 
   const likeMutation = useMutation({
     mutationFn: () =>
@@ -319,7 +315,6 @@ const LessonDetails = () => {
         </div>
       </section>
 
-      {/* Similar Lessons  ✅ UPDATE */}
       <section>
         <h2 className="text-3xl font-semibold mb-6 border-b-4 border-secondary inline-block">
           Similar Lessons

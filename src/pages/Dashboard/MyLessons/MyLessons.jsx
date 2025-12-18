@@ -17,11 +17,12 @@ const MyLessons = () => {
   const [role, isRoleLoading] = useRole();
 
     // Query to fetch lessons
-  const { data: lessonData = [], refetch } = useQuery({
+  const { data: lessonData = [], isLoading, refetch } = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons?email=${user?.email}`);
+      const res = await axiosSecure.get("/my-lessons");
+
       return res.data;
     },
   });
@@ -60,9 +61,9 @@ const MyLessons = () => {
     });
   };
 
-  if (isRoleLoading) {
-    return <LoadingSpinner />;
-  }
+if (isRoleLoading || isLoading) {
+  return <LoadingSpinner />;
+}
 
   return (
     <div className="px-3 lg:px-0 my-10">

@@ -93,7 +93,6 @@ const AdminDashboardHome = () => {
         </div>
       </div>
 
-      {/* Graph placeholders */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-4 rounded shadow">
           <h3 className="font-semibold mb-2">Lesson Growth</h3>

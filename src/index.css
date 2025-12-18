@@ -224,3 +224,10 @@ border-radius: 9999px;
   font-weight: bold;
   border-radius: 12px;
 }
+
+/* Allow icon to overflow swiper slide */
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  overflow: visible !important;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
+import { Player } from "@lottiefiles/react-lottie-player";
 import formbg from "../../../assets/formbg1.webp";
 import useAuth from "../../../Hooks/useAuth";
 import useRole from "../../../Hooks/useRole";
@@ -8,6 +9,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
 import { useNavigate } from "react-router";
+
+const successAnimationUrl =
+  "https://assets7.lottiefiles.com/packages/lf20_jbrw3hcz.json";
+
+const confettiAnimationUrl =
+  "https://assets7.lottiefiles.com/packages/lf20_touohxv0.json";
 
 const categories = [
   "Personal Growth",
@@ -22,7 +29,7 @@ const emotionalTones = ["Motivational", "Sad", "Realization", "Gratitude"];
 const AddLesson = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -35,6 +42,8 @@ const AddLesson = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedImage, setSelectedImage] = useState(null);
   const [role, isRoleLoading] = useRole();
+
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
   useEffect(() => {
     if (!isRoleLoading && role === "freeUser") {
@@ -50,15 +59,12 @@ const AddLesson = () => {
 
     const lessonData = {
       ...data,
-
       email: user.email,
       creatorId: user.uid,
       creatorName: user.displayName,
       creatorPhoto: user.photoURL,
-
       createdAt: new Date(),
       updatedAt: new Date(),
-
       likesCount: 0,
       likes: [],
       favoritesCount: 0,
@@ -69,13 +75,17 @@ const AddLesson = () => {
 
     axiosSecure
       .post("/lessons", lessonData)
-      .then((res) => {
+      .then(() => {
         toast.success("Lesson added successfully!");
         reset();
         setSelectedImage(null);
         queryClient.invalidateQueries(["my-lessons", user.email]);
-                navigate("/dashboard/my-lessons");
 
+        setShowSuccessAnimation(true);
+        setTimeout(() => {
+          setShowSuccessAnimation(false);
+          navigate("/dashboard/my-lessons");
+        }, 3000);
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);
@@ -89,10 +99,47 @@ const AddLesson = () => {
 
   return (
     <div
-      className="max-w-6xl mx-auto my-10 p-8 rounded-lg bg-cover bg-center"
+      className="max-w-6xl mx-auto my-10 p-8 rounded-lg bg-cover bg-center relative"
       style={{ backgroundImage: `url(${formbg})` }}
     >
-      <div className="backdrop-blur-sm p-8 rounded-lg shadow-lg">
+      {showSuccessAnimation && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50 p-4"
+          style={{ backdropFilter: "blur(6px)" }}
+        >
+          <Player
+            autoplay
+            loop
+            src={confettiAnimationUrl}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              opacity: 0.3,
+              zIndex: 1,
+            }}
+          />
+
+          <div
+            className="bg-white rounded-xl p-6 flex flex-col items-center shadow-2xl animate-scaleIn relative z-10"
+            style={{ maxWidth: 300, width: "100%" }}
+          >
+            <Player
+              autoplay
+              loop={false}
+              src={successAnimationUrl}
+              style={{ height: 180, width: 180 }}
+            />
+            <p className="mt-4 text-xl font-semibold text-primary select-none">
+              Lesson Added Successfully!
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="backdrop-blur-sm p-8 rounded-lg shadow-lg relative z-10">
         <h2 className="text-4xl font-bold mb-8 text-center text-primary">
           Add A Lesson
         </h2>
@@ -119,6 +166,7 @@ const AddLesson = () => {
               className={`input input-bordered w-full ${
                 errors.lessonTitle ? "border-red-500" : ""
               }`}
+              disabled={showSuccessAnimation}
             />
             {errors.lessonTitle && (
               <p className="text-red-500 mt-1">{errors.lessonTitle.message}</p>
@@ -143,6 +191,7 @@ const AddLesson = () => {
               className={`input input-bordered w-full resize-none ${
                 errors.description ? "border-red-500" : ""
               }`}
+              disabled={showSuccessAnimation}
             />
             {errors.description && (
               <p className="text-red-500 mt-1">{errors.description.message}</p>
@@ -163,8 +212,11 @@ const AddLesson = () => {
               className={`select select-bordered w-full ${
                 errors.category ? "border-red-500" : ""
               }`}
+              disabled={showSuccessAnimation}
             >
-              <option disabled value="">Select a category</option>
+              <option disabled value="">
+                Select a category
+              </option>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -192,8 +244,11 @@ const AddLesson = () => {
               className={`select select-bordered w-full ${
                 errors.emotionalTone ? "border-red-500" : ""
               }`}
+              disabled={showSuccessAnimation}
             >
-              <option disabled value="">Select emotional tone</option>
+              <option disabled value="">
+                Select emotional tone
+              </option>
               {emotionalTones.map((tone) => (
                 <option key={tone} value={tone}>
                   {tone}
@@ -222,6 +277,7 @@ const AddLesson = () => {
               {...register("image")}
               onChange={(e) => setSelectedImage(e.target.files[0])}
               className="file-input file-input-bordered w-full"
+              disabled={showSuccessAnimation}
             />
             {selectedImage && (
               <p className="mt-2 text-sm text-gray-600">
@@ -246,8 +302,11 @@ const AddLesson = () => {
               className={`select select-bordered w-full ${
                 errors.privacy ? "border-red-500" : ""
               }`}
+              disabled={showSuccessAnimation}
             >
-              <option disabled value="">Select privacy</option>
+              <option disabled value="">
+                Select privacy
+              </option>
               <option value="public">Public</option>
               <option value="private">Private</option>
             </select>
@@ -271,7 +330,7 @@ const AddLesson = () => {
                 required:
                   role === "premiumUser" ? "Access level is required" : false,
               })}
-              disabled={role === "freeUser"}
+              disabled={role === "freeUser" || showSuccessAnimation}
               title={
                 role === "freeUser"
                   ? "Upgrade to Premium to create paid lessons"
@@ -281,7 +340,9 @@ const AddLesson = () => {
                 role === "freeUser" ? "bg-gray-200 cursor-not-allowed" : ""
               } ${errors.accessLevel ? "border-red-500" : ""}`}
             >
-              <option disabled value="">Select access level</option>
+              <option disabled value="">
+                Select access level
+              </option>
               <option value="free">Free</option>
               <option value="premium">Premium</option>
             </select>
@@ -296,11 +357,28 @@ const AddLesson = () => {
               type="submit"
               value="Add Lesson"
               className="btn btn-primary w-full"
+              disabled={showSuccessAnimation}
             />
           </div>
         </form>
       </div>
       <ToastContainer position="top-right" autoClose={2000} />
+
+      <style>{`
+        @keyframes scaleIn {
+          0% {
+            transform: scale(0.7);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .animate-scaleIn {
+          animation: scaleIn 0.4s ease forwards;
+        }
+      `}</style>
     </div>
   );
 };

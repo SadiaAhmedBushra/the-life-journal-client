@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useContext, useEffect, useRef } from "react";
-// import useAuth from "../Hooks/useAuth";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const axiosSecure = axios.create({
@@ -13,7 +12,6 @@ const useAxiosSecure = () => {
   const responseInterceptorRef = useRef(null);
 
   useEffect(() => {
-    // Always remove previous interceptors first (safe even if null)
     if (requestInterceptorRef.current !== null) {
       axiosSecure.interceptors.request.eject(requestInterceptorRef.current);
       requestInterceptorRef.current = null;
@@ -23,15 +21,12 @@ const useAxiosSecure = () => {
       responseInterceptorRef.current = null;
     }
 
-    // Only add new ones if authenticated and not loading
     if (!loading && user?.accessToken) {
-      // Request interceptor: add token
       requestInterceptorRef.current = axiosSecure.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
         return config;
       });
 
-      // Response interceptor: handle 401/403
       responseInterceptorRef.current = axiosSecure.interceptors.response.use(
         (res) => res,
         (err) => {
@@ -47,7 +42,6 @@ const useAxiosSecure = () => {
       );
     }
 
-    // Cleanup on unmount or deps change
     return () => {
       if (requestInterceptorRef.current !== null) {
         axiosSecure.interceptors.request.eject(requestInterceptorRef.current);

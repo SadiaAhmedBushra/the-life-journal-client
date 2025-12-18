@@ -1,0 +1,118 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useState } from "react";
+
+const ReportedLessons = () => {
+  const axiosSecure = useAxiosSecure();
+  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [reports, setReports] = useState([]);
+
+  const { data: lessons = [], isLoading, refetch } = useQuery({
+    queryKey: ["reported-lessons"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/admin/reported-lessons");
+      return res.data;
+    },
+  });
+
+  const openReports = async (lesson) => {
+    setSelectedLesson(lesson);
+    const res = await axiosSecure.get(
+      `/admin/reported-lessons/${lesson._id}/reports`
+    );
+    setReports(res.data);
+  };
+
+  const handleDelete = async (id) => {
+    await axiosSecure.delete(`/lessons/${id}`);
+    refetch();
+  };
+
+  const handleIgnore = async (id) => {
+    await axiosSecure.patch(`/admin/reported-lessons/ignore/${id}`);
+    refetch();
+  };
+
+  if (isLoading) {
+  return <LoadingSpinner />;
+}
+
+  return (
+    <div className="p-6">
+      <h2 className="text-xl font-bold mb-4">Reported Lessons: {lessons.length}</h2>
+
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th>Lesson Title</th>
+            <th>Report Count</th>
+            <th>Details</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {lessons.map((lesson) => (
+            <tr key={lesson._id}>
+              <td>{lesson.lessonTitle}</td>
+              <td>{lesson.ReportCount}</td>
+              <td>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => openReports(lesson)}
+                >
+                  View Reports
+                </button>
+              </td>
+              <td className="flex gap-2">
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={() => handleDelete(lesson._id)}
+                >
+                  Delete
+                </button>
+                <button
+                  className="btn btn-sm btn-secondary"
+                  onClick={() => handleIgnore(lesson._id)}
+                >
+                  Ignore
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {selectedLesson && (
+        <dialog open className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-2">
+              Reports for: {selectedLesson.lessonTitle}
+            </h3>
+
+            {reports.map((r, idx) => (
+              <div key={idx} className="bg-primary/10 shadow-sm p-2 mb-2 rounded-lg">
+                <p className="font-semibold">{r.reporterUserId}</p>
+                <p className="text-sm">{r.reason}</p>
+                <p className="text-xs opacity-70">
+                  {new Date(r.timestamp).toLocaleString()}
+                </p>
+              </div>
+            ))}
+
+            <form method="dialog">
+              <button
+                className="btn btn-secondary w-full mt-3"
+                onClick={() => setSelectedLesson(null)}
+              >
+                Close
+              </button>
+            </form>
+          </div>
+        </dialog>
+      )}
+    </div>
+  );
+};
+
+export default ReportedLessons;
