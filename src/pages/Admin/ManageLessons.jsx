@@ -94,7 +94,7 @@ const ManageLessons = () => {
 
       <div className="mb-6 flex flex-wrap gap-4">
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered border-primary rounded-lg w-auto"
           value={filters.category}
           onChange={(e) =>
             setFilters((f) => ({ ...f, category: e.target.value }))
@@ -107,7 +107,7 @@ const ManageLessons = () => {
         </select>
 
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered w-auto border-primary rounded-lg"
           value={filters.privacy}
           onChange={(e) =>
             setFilters((f) => ({ ...f, privacy: e.target.value }))
@@ -119,7 +119,7 @@ const ManageLessons = () => {
         </select>
 
         <select
-          className="select select-bordered w-auto"
+          className="select select-bordered w-auto border-primary rounded-lg"
           value={filters.isFlagged}
           onChange={(e) =>
             setFilters((f) => ({ ...f, isFlagged: e.target.value }))

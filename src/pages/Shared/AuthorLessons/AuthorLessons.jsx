@@ -50,7 +50,7 @@ const AuthorLessons = () => {
 
   return (
     <main className="max-w-6xl mx-auto my-12 px-4">
-      <section className="flex flex-col md:flex-row items-center gap-6 bg-white shadow-lg p-8 rounded-xl mb-12">
+      <section className="flex flex-col md:flex-row items-center gap-6 bg-primary/10 shadow-lg p-8 rounded-xl mb-12">
         <img
           src={author?.photoURL || "/default-profile.png"}
           alt={author?.name}
@@ -62,14 +62,14 @@ const AuthorLessons = () => {
             {author?.name || "Unknown Author"}
           </h1>
 
-          <p className="text-gray-600 mt-1">{author?.email}</p>
+          <p className="text-muted mt-1">{author?.email}</p>
 
           <p className="mt-2 text-lg font-semibold">
             {author?.lessonsCreated} lesson
             {author?.lessonsCreated !== 1 && "s"} created
           </p>
 
-          <button onClick={() => navigate(-1)} className="mt-4 btn btn-outline">
+          <button onClick={() => navigate(-1)} className="mt-4 btn btn-primary">
             ← Back
           </button>
         </div>
@@ -81,7 +81,7 @@ const AuthorLessons = () => {
         </h2>
 
         {lessons.length === 0 && (
-          <p className="text-gray-500 italic mt-6">
+          <p className="text-muted italic mt-6">
             This author hasn’t published any public lessons yet.
           </p>
         )}

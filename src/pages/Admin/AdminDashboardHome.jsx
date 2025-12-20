@@ -146,14 +146,14 @@ const AdminDashboardHome = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="font-semibold mb-2">Lesson Growth</h3>
+        <div className="bg-primary/5 rounded-lg p-4 shadow">
+          <h3 className="font-bold text-xl text-secondary mb-2">Lesson Growth</h3>
           {isLessonLoading ? (
             <LoadingSpinner />
           ) : isLessonError ? (
             <p className="text-red-500">Failed to load lesson growth data.</p>
           ) : formattedLessonGrowth.length === 0 ? (
-            <p className="text-gray-500">No lesson growth data available.</p>
+            <p className="text-muted">No lesson growth data available.</p>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
               <LineChart
@@ -174,14 +174,14 @@ const AdminDashboardHome = () => {
           )}
         </div>
 
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="font-semibold mb-2">User Growth</h3>
+        <div className="bg-secondary/5 rounded-lg p-4 shadow">
+          <h3 className="font-bold text-xl text-primary mb-2">User Growth</h3>
           {isUserLoading ? (
             <LoadingSpinner />
           ) : isUserError ? (
             <p className="text-red-500">Failed to load user growth data.</p>
           ) : formattedUserGrowth.length === 0 ? (
-            <p className="text-gray-500">No user growth data available.</p>
+            <p className="text-muted">No user growth data available.</p>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
               <LineChart

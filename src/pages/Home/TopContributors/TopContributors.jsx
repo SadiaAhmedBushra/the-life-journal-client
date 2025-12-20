@@ -21,7 +21,13 @@ const cardVariants = {
   },
 };
 
-const ContributorCard = ({ userEmail, name, lessonsCount, author, totalLessons }) => {
+const ContributorCard = ({
+  userEmail,
+  name,
+  lessonsCount,
+  author,
+  totalLessons,
+}) => {
   const ref = React.useRef(null);
   const controls = useAnimation();
   const inView = useInView(ref, { amount: 0.8 });
@@ -51,12 +57,15 @@ const ContributorCard = ({ userEmail, name, lessonsCount, author, totalLessons }
           className="w-full h-full object-cover"
         />
       </div>
+
       <h2 className="text-2xl font-semibold mb-1 text-muted">
         {author.name || name || userEmail}
       </h2>
+
       <p className="text-primary font-medium text-lg mb-2">
         {lessonsCount ?? 0} lessons added this week
       </p>
+
       <p className="text-secondary text-sm">
         Total lessons created: {totalLessons}
       </p>
@@ -104,6 +113,7 @@ const TopContributors = () => {
       enabled: !!contributors && contributors.length > 0,
     });
 
+  // 3️⃣ Author info (🔥 FIXED API)
   const { data: authorsInfo = {}, isLoading: authorsLoading } = useQuery({
     queryKey: ["authors-info", contributors?.map((c) => c.userEmail)],
     queryFn: async () => {
@@ -112,7 +122,7 @@ const TopContributors = () => {
       const emails = contributors.map((c) => c.userEmail);
       const results = await Promise.all(
         emails.map(async (email) => {
-          const res = await axiosSecure.get(`/users/${email}`);
+          const res = await axiosSecure.get(`/authors/${email}`);
           return { email, data: res.data };
         })
       );
@@ -126,14 +136,19 @@ const TopContributors = () => {
   });
 
   if (isLoading || authorsLoading) return <LoadingSpinner />;
+
   if (error)
     return (
-      <p className="text-red-500 text-center mt-10">Failed to load contributors</p>
+      <p className="text-red-500 text-center mt-10">
+        Failed to load contributors
+      </p>
     );
 
   if (!Array.isArray(contributors) || contributors.length === 0)
     return (
-      <p className="text-muted text-center mt-10">No contributions yet this week.</p>
+      <p className="text-muted text-center mt-10">
+        No contributions yet this week.
+      </p>
     );
 
   return (
@@ -141,6 +156,7 @@ const TopContributors = () => {
       <h1 className="text-4xl font-extrabold mb-10 text-primary text-center tracking-wide">
         Our Top Contributors
       </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {contributors.map(({ userEmail, name, lessonsCount }) => {
           const author = authorsInfo[userEmail] || {};

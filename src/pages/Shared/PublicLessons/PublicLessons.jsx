@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import LessonCard from "../LessonCard/LessonCard";
@@ -6,8 +6,14 @@ import LoadingSpinner from "../../../Components/LoadingSpinner";
 
 const PublicLessons = () => {
   const axiosSecure = useAxiosSecure();
+
   const [currentPage, setCurrentPage] = useState(1);
-  const lessonsPerPage = 6; 
+  const lessonsPerPage = 6;
+
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [emotionalTone, setEmotionalTone] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
 
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["public-lessons"],
@@ -17,20 +23,53 @@ const PublicLessons = () => {
     },
   });
 
-  if (isLoading) return <LoadingSpinner />;
+  const filteredLessons = useMemo(() => {
+    let data = lessons.slice();
 
-  const publicLessons = lessons.filter(
-    (lesson) => lesson.privacy === "public"
-  );
+    if (search) {
+      const keyword = search.toLowerCase();
+      data = data.filter(
+        (lesson) =>
+          lesson.lessonTitle?.toLowerCase().includes(keyword) ||
+          lesson.description?.toLowerCase().includes(keyword) ||
+          lesson.category?.toLowerCase().includes(keyword) ||
+          lesson.emotionalTone?.toLowerCase().includes(keyword)
+      );
+    }
 
-  // pagination logic
+    if (category) {
+      data = data.filter((lesson) => lesson.category === category);
+    }
+
+    if (emotionalTone) {
+      data = data.filter((lesson) => lesson.emotionalTone === emotionalTone);
+    }
+
+    if (sortBy === "newest") {
+      data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    if (sortBy === "saved") {
+      data = data
+        .filter((lesson) => (lesson.favoritesCount || 0) >= 1)
+        .sort((a, b) => (b.favoritesCount || 0) - (a.favoritesCount || 0));
+    }
+
+    return data;
+  }, [lessons, search, category, emotionalTone, sortBy]);
+
   const indexOfLastLesson = currentPage * lessonsPerPage;
   const indexOfFirstLesson = indexOfLastLesson - lessonsPerPage;
-  const currentLessons = publicLessons.slice(indexOfFirstLesson, indexOfLastLesson);
+  const currentLessons = filteredLessons.slice(
+    indexOfFirstLesson,
+    indexOfLastLesson
+  );
 
-  const totalPages = Math.ceil(publicLessons.length / lessonsPerPage);
+  const totalPages = Math.ceil(filteredLessons.length / lessonsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (page) => setCurrentPage(page);
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
@@ -38,8 +77,61 @@ const PublicLessons = () => {
         Checkout Some Life Changing Lessons
       </h1>
 
-      {publicLessons.length === 0 ? (
-        <p className="text-center text-secondary">No public lessons available.</p>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <input
+          type="text"
+          placeholder="Search lessons..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="input input-bordered w-full border-secondary/50 rounded-lg"
+        />
+
+        <select
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="select select-bordered border-secondary/50 rounded-lg"
+        >
+          <option value="">All Categories</option>
+          <option value="Personal Growth">Personal Growth</option>
+          <option value="Career">Career</option>
+          <option value="Relationships">Relationships</option>
+          <option value="Mindset">Mindset</option>
+          <option value="Mistakes Learned">Mistakes Learned</option>
+        </select>
+
+        <select
+          value={emotionalTone}
+          onChange={(e) => {
+            setEmotionalTone(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="select select-bordered border-secondary/50 rounded-lg"
+        >
+          <option value="">All Emotional Tones</option>
+          <option value="Motivational">Motivational</option>
+          <option value="Sad">Sad</option>
+          <option value="Realization">Realization</option>
+          <option value="Gratitude">Gratitude</option>
+        </select>
+
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="select select-bordered border-secondary/50 rounded-lg"
+        >
+          <option value="newest">Newest</option>
+          <option value="saved">Most Saved</option>
+        </select>
+      </div>
+
+      {filteredLessons.length === 0 ? (
+        <p className="text-center text-secondary">No lessons found.</p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,35 +140,31 @@ const PublicLessons = () => {
             ))}
           </div>
 
-          <div className="flex flex-wrap justify-center mt-8 space-x-2 sm:space-x-3">
+          <div className="flex flex-wrap justify-center mt-8 gap-2">
             <button
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-3 py-1 rounded ${
-                currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-primary text-white"
-              }`}
+              className="btn btn-sm"
             >
               Prev
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <button
-                key={number}
-                onClick={() => paginate(number)}
-                className={`px-3 py-1 rounded ${
-                  currentPage === number ? "bg-primary text-white" : "bg-gray-200"
+                key={num}
+                onClick={() => paginate(num)}
+                className={`btn btn-sm ${
+                  currentPage === num ? "btn-primary" : ""
                 }`}
               >
-                {number}
+                {num}
               </button>
             ))}
 
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-3 py-1 rounded ${
-                currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-primary text-white"
-              }`}
+              className="btn btn-sm"
             >
               Next
             </button>

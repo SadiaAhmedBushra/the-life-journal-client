@@ -80,12 +80,12 @@ const MyDashboardHome = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         {/* Total Lessons */}
-        <div className="bg-white shadow rounded-lg p-6 flex items-center gap-4 border border-gray-100">
+        <div className="bg-secondary/5 shadow rounded-lg p-6 flex items-center gap-4">
           <div className="p-4 bg-primary text-white rounded-full">
             <FaBook size={28} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-700">
+            <h3 className="text-lg font-semibold text-muted">
               Total Lessons Created
             </h3>
             <p className="text-3xl font-bold text-primary">{lessons.length}</p>
@@ -93,15 +93,15 @@ const MyDashboardHome = () => {
         </div>
 
         {/* Total Favorites */}
-        <div className="bg-white shadow rounded-lg p-6 flex items-center gap-4 border border-gray-100">
-          <div className="p-4 bg-pink-500 text-white rounded-full">
+        <div className="bg-primary/5 shadow rounded-lg p-6 flex items-center gap-4">
+          <div className="p-4 bg-secondary text-white rounded-full">
             <FaHeart size={28} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-700">
+            <h3 className="text-lg font-semibold text-muted">
               Total Saved (Favorites)
             </h3>
-            <p className="text-3xl font-bold text-pink-500">
+            <p className="text-3xl font-bold text-secondary">
               {favorites.length}
             </p>
           </div>
@@ -128,13 +128,13 @@ const MyDashboardHome = () => {
             </Link>
             <Link
               to="/dashboard/my-favorites"
-              className="btn btn-accent py-2 text-center text-sm rounded"
+              className="btn btn-primary py-2 text-center text-sm rounded"
             >
               View Favorites
             </Link>
             <Link
               to="/dashboard/update-my-profile"
-              className="btn btn-info py-2 text-center text-sm rounded"
+              className="btn btn-secondary py-2 text-center text-sm rounded"
             >
               Update Profile
             </Link>
@@ -143,7 +143,7 @@ const MyDashboardHome = () => {
       </div>
 
       <section className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">
+        <h3 className="text-2xl text-secondary font-semibold mb-6 text-muted border-b-3 border-secondary pb-2">
           Recently Added Lessons
         </h3>
         {recentLessons.length === 0 ? (
@@ -158,7 +158,7 @@ const MyDashboardHome = () => {
       </section>
 
       <section>
-        <h3 className="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">
+        <h3 className="text-2xl text-primary font-semibold mb-6 text-muted border-b-3 border-primary pb-2">
           Daily Contributions
         </h3>
         <div

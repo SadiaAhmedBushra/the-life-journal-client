@@ -189,3 +189,4 @@ const FeaturedLessons = () => {
 };
 
 export default FeaturedLessons;
+
