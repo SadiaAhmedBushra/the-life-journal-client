@@ -9,6 +9,16 @@ import { PiUserCircleGear } from "react-icons/pi";
 import { MdPublic } from "react-icons/md";
 import { IoToday } from "react-icons/io5";
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
 const AdminDashboardHome = () => {
   const axiosSecure = useAxiosSecure();
 
@@ -20,6 +30,32 @@ const AdminDashboardHome = () => {
     },
   });
 
+  const {
+    data: lessonGrowthData,
+    isLoading: isLessonLoading,
+    isError: isLessonError,
+  } = useQuery({
+    queryKey: ["lesson-growth"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/admin/analytics/lesson-growth");
+      return res.data.data || [];
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const {
+    data: userGrowthData,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useQuery({
+    queryKey: ["user-growth"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/admin/analytics/user-growth");
+      return res.data.data || [];
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
   if (isLoading) return <LoadingSpinner />;
 
   if (isError) {
@@ -29,6 +65,18 @@ const AdminDashboardHome = () => {
       </div>
     );
   }
+
+  const formattedLessonGrowth =
+    lessonGrowthData?.map(({ _id, count }) => ({
+      date: _id,
+      count,
+    })) || [];
+
+  const formattedUserGrowth =
+    userGrowthData?.map(({ _id, count }) => ({
+      date: _id,
+      count,
+    })) || [];
 
   return (
     <div className="max-w-6xl mx-auto my-10">
@@ -74,34 +122,84 @@ const AdminDashboardHome = () => {
           </p>
         </div>
 
-         <div
+        <div
           className="py-10 px-5 rounded-lg flex flex-col gap-2 items-center"
           style={{ backgroundImage: `url(${tealBg})` }}
         >
-            <FaFlag size={50} className="text-secondary" />
+          <FaFlag size={50} className="text-secondary" />
           <h4 className="text-sm text-accent">Flagged Lessons</h4>
-          <p className="text-2xl text-muted font-bold">{data?.flaggedLessons ?? 0}</p>
+          <p className="text-2xl text-muted font-bold">
+            {data?.flaggedLessons ?? 0}
+          </p>
         </div>
 
         <div
           className="py-10 px-5 rounded-lg flex flex-col gap-2 items-center"
           style={{ backgroundImage: `url(${tealBg})` }}
         >
-            <IoToday size={50} className="text-secondary" />
+          <IoToday size={50} className="text-secondary" />
           <h4 className="text-sm text-accent">Today's New Lessons</h4>
-          <p className="text-2xl text-muted font-bold">{data?.todayLessons ?? 0}</p>
+          <p className="text-2xl text-muted font-bold">
+            {data?.todayLessons ?? 0}
+          </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-4 rounded shadow">
           <h3 className="font-semibold mb-2">Lesson Growth</h3>
-          <p className="text-gray-500">Graph coming soon</p>
+          {isLessonLoading ? (
+            <LoadingSpinner />
+          ) : isLessonError ? (
+            <p className="text-red-500">Failed to load lesson growth data.</p>
+          ) : formattedLessonGrowth.length === 0 ? (
+            <p className="text-gray-500">No lesson growth data available.</p>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={formattedLessonGrowth}
+                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+              >
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke="#14B8A6"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
 
         <div className="bg-white p-4 rounded shadow">
           <h3 className="font-semibold mb-2">User Growth</h3>
-          <p className="text-gray-500">Graph coming soon</p>
+          {isUserLoading ? (
+            <LoadingSpinner />
+          ) : isUserError ? (
+            <p className="text-red-500">Failed to load user growth data.</p>
+          ) : formattedUserGrowth.length === 0 ? (
+            <p className="text-gray-500">No user growth data available.</p>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={formattedUserGrowth}
+                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+              >
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  // type="monotone"
+                  dataKey="count"
+                  stroke="#898bf0"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
     </div>
