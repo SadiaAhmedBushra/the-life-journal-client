@@ -42,7 +42,7 @@ const userIsPremium = role === "Premium" || role === "admin";
       return;
     }
 
-    fetch(`http://localhost:3000/lessons/${lesson._id}/like`, {
+    fetch(`https://the-life-journal-server.vercel.app/lessons/${lesson._id}/like`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -76,7 +76,7 @@ const userIsPremium = role === "Premium" || role === "admin";
       return;
     }
 
-    fetch(`http://localhost:3000/lessons/${lesson._id}/favorite`, {
+    fetch(`https://the-life-journal-server.vercel.app/lessons/${lesson._id}/favorite`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

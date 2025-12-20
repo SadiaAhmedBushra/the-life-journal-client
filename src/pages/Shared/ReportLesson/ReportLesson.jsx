@@ -25,7 +25,7 @@ const ReportLesson = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/lessons/${id}/report`, {
+    fetch(`https://the-life-journal-server.vercel.app/lessons/${id}/report`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

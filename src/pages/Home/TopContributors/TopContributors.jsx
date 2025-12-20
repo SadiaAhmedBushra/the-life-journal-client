@@ -154,7 +154,7 @@ const TopContributors = () => {
   return (
     <div className="max-w-6xl mx-auto my-16 p-6">
       <h1 className="text-4xl font-extrabold mb-10 text-primary text-center tracking-wide">
-        Our Top Contributors
+        Our Top Contributors of This Week
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
