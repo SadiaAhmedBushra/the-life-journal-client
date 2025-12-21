@@ -71,6 +71,9 @@ const MyFavorites = () => {
 
   return (
     <div className="px-3 lg:px-0 my-10">
+      <h2 className="text-3xl font-bold my-10 text-center text-primary">
+        My Favorite Lessons
+      </h2>
       <h1 className="text-lg font-semibold mb-4 lg:text-2xl">
         Number of favorites: {favorites.length}
       </h1>
@@ -82,7 +85,7 @@ const MyFavorites = () => {
           </label>
           <select
             id="categoryFilter"
-            className="border rounded p-1"
+            className="border border-primary rounded-lg p-1"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
@@ -101,7 +104,7 @@ const MyFavorites = () => {
           </label>
           <select
             id="emotionalToneFilter"
-            className="border rounded p-1"
+            className="border border-primary rounded-lg p-1"
             value={emotionalToneFilter}
             onChange={(e) => setEmotionalToneFilter(e.target.value)}
           >
@@ -115,7 +118,6 @@ const MyFavorites = () => {
         </div>
       </div>
 
-      {/* Table container */}
       <div className="overflow-x-auto w-full rounded-lg shadow-sm">
         <table className="table min-w-[700px] lg:min-w-full text-sm lg:text-base">
           <thead className="bg-gray-100">

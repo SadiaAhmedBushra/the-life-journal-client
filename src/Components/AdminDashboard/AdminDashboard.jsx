@@ -11,56 +11,78 @@ const AdminDashboard = () => {
   return (
     <div>
       <li>
-        <Link
+        <NavLink
           to="/dashboard/admin"
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="AdminHomepage"
+          className={({ isActive }) =>
+            `is-drawer-close:tooltip is-drawer-close:tooltip-right
+       ${isActive ? "text-secondary font-semibold" : ""}`
+          }
+          data-tip="Admin Homepage"
         >
           <SiHomepage className="text-primary size-5" />
           <span className="is-drawer-close:hidden">Admin Dashboard Home</span>
-        </Link>
+        </NavLink>
       </li>
+
       <li>
-        <Link
+        <NavLink
           to="/dashboard/admin/manage-users"
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="ManageUsers"
+          className={({ isActive }) =>
+            `is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+              isActive ? "bg-primary/20 font-semibold" : ""
+            }`
+          }
+          data-tip="Manage Users"
         >
           <MdManageAccounts className="text-primary size-7" />
           <span className="is-drawer-close:hidden">Manage Users</span>
-        </Link>
+        </NavLink>
       </li>
+
       <li>
-        <Link
+        <NavLink
           to="/dashboard/admin/manage-lessons"
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="ManageLessons"
+          className={({ isActive }) =>
+            `is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+              isActive ? "bg-primary/20 font-semibold" : ""
+            }`
+          }
+          data-tip="Manage Lessons"
         >
           <TbFileSettings className="text-primary size-7" />
           <span className="is-drawer-close:hidden">Manage Lessons</span>
-        </Link>
+        </NavLink>
       </li>
-        <li>
-        <Link
+
+      <li>
+        <NavLink
           to="/dashboard/admin/reported-lessons"
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="ReportedLessons"
+          className={({ isActive }) =>
+            `is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+              isActive ? "bg-primary/20 font-semibold" : ""
+            }`
+          }
+          data-tip="Reported Lessons"
         >
           <FaFlag className="text-primary size-6" />
           <span className="is-drawer-close:hidden">Reported Lessons</span>
-        </Link>
+        </NavLink>
       </li>
-       <li>
-        <Link
+
+      <li>
+        <NavLink
           to="/dashboard/admin/admin-profile"
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="AdminProfile"
+          className={({ isActive }) =>
+            `is-drawer-close:tooltip is-drawer-close:tooltip-right ${
+              isActive ? "bg-primary/20 font-semibold" : ""
+            }`
+          }
+          data-tip="Admin Profile"
         >
           <MdAdminPanelSettings className="text-primary size-7" />
           <span className="is-drawer-close:hidden">Admin Profile</span>
-        </Link>
+        </NavLink>
       </li>
-      
 
       <UserDashboard></UserDashboard>
     </div>

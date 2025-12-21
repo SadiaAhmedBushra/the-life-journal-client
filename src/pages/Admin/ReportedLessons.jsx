@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import LoadingSpinner from "../../Components/LoadingSpinner";
+import Swal from "sweetalert2";
 
 const ReportedLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -24,10 +25,40 @@ const ReportedLessons = () => {
     setReports(res.data);
   };
 
-  const handleDelete = async (id) => {
-    await axiosSecure.delete(`/lessons/${id}`);
-    refetch();
-  };
+const handleDelete = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axiosSecure
+        .delete(`/lessons/${id}`)
+        .then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "The reported lesson has been deleted.",
+              icon: "success",
+            });
+          }
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Failed!",
+            text: "Failed to delete the lesson.",
+          });
+        });
+    }
+  });
+};
+
 
   const handleIgnore = async (id) => {
     await axiosSecure.patch(`/admin/reported-lessons/ignore/${id}`);
@@ -40,7 +71,10 @@ const ReportedLessons = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Reported Lessons: {lessons.length}</h2>
+      <h2 className="text-3xl font-bold my-10 text-center text-primary">
+        Reported Lessons
+      </h2>
+      <h2 className="text-xl font-bold mb-4">Total Reported Lessons: {lessons.length}</h2>
 
       <table className="table w-full">
         <thead>

@@ -149,7 +149,7 @@ const MyDashboardHome = () => {
         {recentLessons.length === 0 ? (
           <p className="text-gray-500">You have no lessons added yet.</p>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="grid lg:grid-cols-3 grid-cols-1 gap-6">
             {recentLessons.map((lesson) => (
               <LessonCard key={lesson._id} lesson={lesson} />
             ))}

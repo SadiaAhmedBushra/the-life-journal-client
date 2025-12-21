@@ -101,20 +101,20 @@ if (isRoleLoading || isLoading) {
                 <td>{lesson.views}</td>
                 <td className="flex gap-2">
                   <Link to={`/dashboard/my-profile/edit-lesson/${lesson._id}`}>
-                    <button className="btn btn-primary btn-xs lg:btn-sm">
+                    <button className="btn btn-primary btn-xs lg:btn-lg">
                       <FaRegEdit />
                     </button>
                   </Link>
 
                   <Link to={`/lesson/${lesson._id}`}>
-                    <button className="btn btn-secondary btn-xs lg:btn-sm">
+                    <button className="btn btn-secondary btn-xs lg:btn-lg">
                       <HiOutlineDocumentMagnifyingGlass />
                     </button>
                   </Link>
 
                   <button
                     onClick={() => handleDeleteLesson(lesson._id)}
-                    className="btn btn-secondary btn-xs lg:btn-sm"
+                    className="btn btn-secondary btn-xs lg:btn-lg"
                   >
                     <MdDeleteOutline />
                   </button>

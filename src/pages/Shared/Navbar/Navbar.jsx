@@ -6,7 +6,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCrown } from "react-icons/fa";
 import useRole from "../../../Hooks/useRole";
-import { MdOutlineWorkspacePremium } from "react-icons/md";
+import {
+  MdAdminPanelSettings,
+  MdOutlineWorkspacePremium,
+} from "react-icons/md";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -48,12 +51,21 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to="/" onClick={() => setMobileMenuOpen(false)}>
+        <NavLink
+          to="/"
+          onClick={() => setMobileMenuOpen(false)}
+          className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }
+        >
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink to="/public-lessons" onClick={() => setMobileMenuOpen(false)}>
+        <NavLink to="/public-lessons" onClick={() => setMobileMenuOpen(false)}
+        className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }>
           Lessons
         </NavLink>
       </li>
@@ -64,6 +76,9 @@ const Navbar = () => {
             <NavLink
               to="/dashboard/add-lesson"
               onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }
             >
               Add Lesson
             </NavLink>
@@ -72,6 +87,9 @@ const Navbar = () => {
             <NavLink
               to="/dashboard/my-lessons"
               onClick={() => setMobileMenuOpen(false)}
+              className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }
             >
               My Lessons
             </NavLink>
@@ -107,7 +125,7 @@ const Navbar = () => {
           </button>
 
           {mobileMenuOpen && (
-            <ul className="menu menu-sm dropdown-content bg-main rounded-box z-50 mt-3 w-52 p-2 shadow-lg absolute">
+            <ul className="bg-white menu menu-sm dropdown-content text-muted rounded-box z-50 mt-3 w-52 p-2 shadow-lg absolute">
               {links}
             </ul>
           )}
@@ -137,9 +155,21 @@ const Navbar = () => {
             )}
 
             {role === "Premium" && (
-              <div className="flex items-center gap-1 btn-primary text-white">
-                <MdOutlineWorkspacePremium size={22} className="" />
+              <div className="flex items-center gap-1 btn-primary text-white px-2 py-1 text-xs lg:px-4 lg:py-2 lg:text-base">
+                <MdOutlineWorkspacePremium size={16} className="lg:hidden" />
+                <MdOutlineWorkspacePremium
+                  size={22}
+                  className="hidden lg:block"
+                />
                 Premium
+              </div>
+            )}
+
+            {role === "admin" && (
+              <div className="flex items-center gap-1 btn-primary text-white px-2 py-1 text-xs lg:px-4 lg:py-2 lg:text-base">
+                <MdAdminPanelSettings size={16} className="lg:hidden" />
+                <MdAdminPanelSettings size={22} className="hidden lg:block" />
+                Admin
               </div>
             )}
 
