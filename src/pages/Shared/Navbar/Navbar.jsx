@@ -142,7 +142,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="navbar-end relative gap-2" ref={userMenuRef}>
+      <div className="navbar-end relative gap-1 lg:gap-2" ref={userMenuRef}>
         {user ? (
           <>
             {role === "freeUser" && (

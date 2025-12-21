@@ -40,7 +40,8 @@ const FeaturedLessons = () => {
   if (data.length === 0) return <div>No featured lessons found.</div>;
 
   return (
-    <section className="my-12 lg:my-24 px-3 sm:px-6 lg:px-14">
+    <section className="my-10 lg:my-24 px-3 sm:px-6 lg:px-14 overflow-x-hidden">
+
       <div className="text-center mb-8 lg:mb-14">
         <div className="flex flex-row items-center justify-center text-primary gap-2">
           <FaStar size={20} />
@@ -61,11 +62,11 @@ const FeaturedLessons = () => {
         autoplay={{ delay: 3500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         spaceBetween={16}
-        slidesPerView={1}         
+        slidesPerView={1}
         breakpoints={{
-          640: { slidesPerView: 1.4 },  
-          768: { slidesPerView: 2 },    
-          1024: { slidesPerView: 3 },   
+          640: { slidesPerView: 1.4 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
         }}
       >
         {data.map((lesson) => {
@@ -114,7 +115,7 @@ const FeaturedLessons = () => {
                       onClick={() =>
                         navigate(userIsLoggedIn ? "/payment" : "/auth/login")
                       }
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary btn-sm lg:btn-md"
                     >
                       Upgrade Now
                     </button>
@@ -174,7 +175,7 @@ const FeaturedLessons = () => {
 
                   <button
                     onClick={handleExploreClick}
-                    className="btn btn-primary w-full"
+                    className="btn btn-primary w-full btn-sm lg:btn-md"
                   >
                     Explore Lesson
                   </button>
@@ -189,4 +190,3 @@ const FeaturedLessons = () => {
 };
 
 export default FeaturedLessons;
-
