@@ -4,6 +4,13 @@
 
 🔗 **Live Website:** https://the-life-journal.web.app/
 
+## Admin Credentials
+
+Use the following credentials to log in as an **Admin**:
+
+* **Email:** `anamika@gmail.com`
+* **Password:** `Anamika`
+
 ---
 
 ## 📌 Project Purpose
