@@ -29,12 +29,14 @@ const SocialLogin = () => {
       {/* Google */}
       <button
         onClick={handleGoogleSignIn}
-        className="btn w-full bg-white text-black border-[#e5e5e5] rounded-full"
+        // className="btn w-full bg-white text-black border-[#e5e5e5] rounded-full"
+        className="btn btn-secondary w-full"
       >
         <svg
           aria-label="Google logo"
           width="16"
           height="16"
+          radius="50%"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
         >
@@ -43,6 +45,7 @@ const SocialLogin = () => {
             <path
               fill="#34a853"
               d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+              
             ></path>
             <path
               fill="#4285f4"

@@ -6,12 +6,31 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCrown } from "react-icons/fa";
 import useRole from "../../../Hooks/useRole";
+import { FaMoon, FaSun } from "react-icons/fa";
+
 import {
   MdAdminPanelSettings,
   MdOutlineWorkspacePremium,
 } from "react-icons/md";
 
 const Navbar = () => {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") === "dark";
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
   const { user, logOut } = useAuth();
   const [role, isRoleLoading] = useRole();
 
@@ -62,10 +81,13 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/public-lessons" onClick={() => setMobileMenuOpen(false)}
-        className={({ isActive }) =>
+        <NavLink
+          to="/public-lessons"
+          onClick={() => setMobileMenuOpen(false)}
+          className={({ isActive }) =>
             isActive ? "text-secondary font-extrabold" : ""
-          }>
+          }
+        >
           Lessons
         </NavLink>
       </li>
@@ -77,8 +99,8 @@ const Navbar = () => {
               to="/dashboard/add-lesson"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-            isActive ? "text-secondary font-extrabold" : ""
-          }
+                isActive ? "text-secondary font-extrabold" : ""
+              }
             >
               Add Lesson
             </NavLink>
@@ -88,8 +110,8 @@ const Navbar = () => {
               to="/dashboard/my-lessons"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-            isActive ? "text-secondary font-extrabold" : ""
-          }
+                isActive ? "text-secondary font-extrabold" : ""
+              }
             >
               My Lessons
             </NavLink>
@@ -132,7 +154,7 @@ const Navbar = () => {
         </div>
 
         <Link to="/" className="text-xl ml-2">
-          <Logo />
+          <Logo className="hidden sm:block" />
         </Link>
       </div>
 
@@ -143,6 +165,18 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end relative gap-1 lg:gap-2" ref={userMenuRef}>
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          aria-label="Toggle Dark Mode"
+          className="ml-4 btn btn-ghost p-2 rounded-full"
+        >
+          {isDarkMode ? (
+            <FaSun size={20} color="var(--color-primary)" />
+          ) : (
+            <FaMoon size={20} />
+          )}
+        </button>
+
         {user ? (
           <>
             {role === "freeUser" && (

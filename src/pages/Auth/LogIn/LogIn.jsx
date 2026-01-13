@@ -12,21 +12,20 @@ import useRole from "../../../Hooks/useRole";
 
 const LogIn = () => {
   const { signInUser, user, loading } = useAuth();
-  const [role, roleLoading] = useRole(); 
+  const [role, roleLoading] = useRole();
   const location = useLocation();
   const navigate = useNavigate();
   // const from = location.state?.from?.pathname || "/";
-// default fallback for normal users
-const defaultRedirect = "/dashboard";
+  const defaultRedirect = "/dashboard";
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-if (loading || roleLoading) return <LoadingSpinner />;
+  if (loading || roleLoading) return <LoadingSpinner />;
 
- if (user && role) {
+  if (user && role) {
     if (role === "admin") {
       return <Navigate to="/dashboard/admin" replace />;
     }
@@ -35,43 +34,34 @@ if (loading || roleLoading) return <LoadingSpinner />;
 
   const handleLogIn = async (data) => {
     try {
-      const result = await signInUser(data.email, data.password);
+      await signInUser(data.email, data.password);
 
       await saveOrUpdateUser({
-        name: data.name,
         email: data.email,
       });
 
       toast.success("Welcome back!");
-      // No navigation here! Wait for user & role to update and trigger redirect
     } catch (error) {
       toast.error(`Sorry! Login failed: ${error.message}`);
     }
   };
 
-//   const handleLogIn = async (data) => {
-//     try {
-//       const result = await signInUser(data.email, data.password);
-//       await saveOrUpdateUser({
-//         name: data.name,
-//         email: data.email,
-//       });
-//       setTimeout(() => {
-//       if (role === "admin") {
-//         navigate("/admin-dashboard", { replace: true });
-//       } else {
-//         navigate(defaultRedirect, { replace: true });
-//       }
-//     }, 800);
-//   } catch (error) {
-//     toast.error(`Sorry! Login failed: ${error.message}`);
-//   }
-// };
+  const handleDemoLogin = async (email, password, name) => {
+    try {
+      await signInUser(email, password);
 
+      await saveOrUpdateUser({
+        email,
+        name,
+      });
 
+      toast.success(`Logged in as ${name}`);
+    } catch (error) {
+      toast.error("Demo login failed");
+    }
+  };
 
-
-const onError = (errors) => {
+  const onError = (errors) => {
     if (errors.email) {
       toast.error("Email is required and must be valid");
     }
@@ -180,6 +170,42 @@ const onError = (errors) => {
 
         <div className="mt-5">
           <SocialLogin />
+        </div>
+
+        <div className="mt-4 space-y-2">
+          <h2 className="mx-auto text-center my-8 font-semibold text-text-primary">
+            Demo Credentials
+          </h2>
+          <button
+            className="btn btn-accent w-full"
+            onClick={() =>
+              handleDemoLogin("admin@demo.com", "Admin123", "Admin")
+            }
+          >
+            Login as Admin (Demo)
+          </button>
+
+          <button
+            className="btn btn-accent w-full"
+            onClick={() =>
+              handleDemoLogin("free@demo.com", "Free123", "Demo Free User")
+            }
+          >
+            Login as Free User (Demo)
+          </button>
+
+          <button
+            className="btn btn-accent w-full"
+            onClick={() =>
+              handleDemoLogin(
+                "premium@demo.com",
+                "Premium123",
+                "Demo Premium User"
+              )
+            }
+          >
+            Login as Premium User (Demo)
+          </button>
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />

@@ -2,14 +2,19 @@ import React from "react";
 import formbg from "../../../assets/formbg1.webp";
 import useRole from "../../../Hooks/useRole";
 import { Link } from "react-router";
-import { MdAdminPanelSettings, MdOutlineWorkspacePremium } from "react-icons/md";
+import {
+  MdAdminPanelSettings,
+  MdOutlineWorkspacePremium,
+} from "react-icons/md";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import LessonCard from "../../Shared/LessonCard/LessonCard";
+import useUser from "../../../Hooks/useUser";
 
 const MyProfile = () => {
   const { user } = useAuth();
+  const { dbUser, loading: userLoading } = useUser();
   const [role, isRoleLoading] = useRole();
 
   const axiosSecure = useAxiosSecure();
@@ -28,23 +33,28 @@ const MyProfile = () => {
   });
 
   const { data: lessonData = [], refetch: refetchLessons } = useQuery({
-  queryKey: ["my-lessons"],
-  enabled: !!user?.email,
-  queryFn: async () => {
-    const res = await axiosSecure.get(`/my-lessons`);
-    return res.data;
-  },
-});
+    queryKey: ["my-lessons"],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/my-lessons`);
+      return res.data;
+    },
+  });
 
-    const { data: authorLessonsCountData = { lessonsCreated: 0 } } = useQuery({
-      queryKey: ["author-lessons-count", user?.email],
-      queryFn: async () => {
-        if (!user?.email) return { lessonsCreated: 0 };
-        const res = await axiosSecure.get(`/lessons/count/${user?.email}`);
-        return res.data;
-      },
-      enabled: !!user?.email,
-    });
+  const { data: authorLessonsCountData = { lessonsCreated: 0 } } = useQuery({
+    queryKey: ["author-lessons-count", user?.email],
+    queryFn: async () => {
+      if (!user?.email) return { lessonsCreated: 0 };
+      const res = await axiosSecure.get(`/lessons/count/${user?.email}`);
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+
+  if (userLoading || isRoleLoading) {
+    return <p className="text-center">Loading profile...</p>;
+  }
+
   return (
     <div
       className="max-w-6xl mx-auto my-10 p-6 lg:p-8 rounded-lg bg-cover bg-center flex justify-center items-center"
@@ -57,9 +67,14 @@ const MyProfile = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
           <div className="backdrop-blur-sm bg-white/60 p-6 lg:p-8 rounded-lg shadow-lg  lg:col-span-4 flex flex-col items-center justify-between gap-4">
             <a href="#" className="relative block">
-              <img
+              {/* <img
                 alt="profile"
                 src={user?.photoURL}
+                className="mx-auto object-cover rounded-full h-32 w-32 lg:h-40 lg:w-40 border-2 border-white"
+              /> */}
+              <img
+                alt="profile"
+                src={user?.photoURL || "https://i.ibb.co/JWfK1Dw5/demouser.png"}
                 className="mx-auto object-cover rounded-full h-32 w-32 lg:h-40 lg:w-40 border-2 border-white"
               />
             </a>
@@ -89,8 +104,11 @@ const MyProfile = () => {
                 <div className="flex flex-col justify-center items-start gap-6 w-full lg:w-1/2">
                   <p className="flex flex-col text-muted">
                     Name
-                    <span className="font-bold text-primary text-xl">
+                    {/* <span className="font-bold text-primary text-xl">
                       {user?.displayName}
+                    </span> */}
+                    <span className="font-bold text-primary text-xl">
+                      {dbUser?.name || user?.email}
                     </span>
                   </p>
                   <p className="flex flex-col text-muted">
@@ -104,9 +122,9 @@ const MyProfile = () => {
                 <div className="flex flex-col justify-between items-start gap-6 w-full lg:w-1/2">
                   <p className="flex flex-col text-muted">
                     Lessons Created
-                     <span className="font-bold text-primary text-xl">
-            {authorLessonsCountData.lessonsCreated} 
-          </span>
+                    <span className="font-bold text-primary text-xl">
+                      {authorLessonsCountData.lessonsCreated}
+                    </span>
                   </p>
                   <p className="flex flex-col text-muted">
                     Lessons Saved
