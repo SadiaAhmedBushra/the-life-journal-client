@@ -2,7 +2,7 @@
 
 **The Life Journal** is a digital life lessons platform where users can create, store, and share meaningful wisdom, reflections, and personal growth insights. It helps people preserve valuable life lessons, track learning progress, and explore wisdom shared by a growing community.
 
-🔗 **Live Website:** https://the-life-journal.web.app/
+🔗 **Live Website:** https://the-life-journal-client.netlify.app/
 
 ## Admin Credentials
 
