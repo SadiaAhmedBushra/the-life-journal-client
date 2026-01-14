@@ -139,15 +139,15 @@ const FeaturedLessons = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 line-clamp-2">
+                  <h3 className="text-primary sm:text-lg lg:text-xl font-bold mb-2 line-clamp-2">
                     {lesson.lessonTitle}
                   </h3>
 
-                  <p className="text-sm lg:text-base text-muted line-clamp-3 mb-3">
+                  <p className="text-sm text-black/50 line-clamp-3 mb-3">
                     {lesson.description}
                   </p>
 
-                  <div className="flex items-center gap-2 text-xs text-muted mb-4">
+                  <div className="flex items-center gap-2 text-xs text-black/50 mb-4">
                     <div className="flex flex-row justify-between items-center gap-1">
                       <IoEyeSharp className="text-secondary" size={17} />
                       <p> {lesson.views || 0}</p>

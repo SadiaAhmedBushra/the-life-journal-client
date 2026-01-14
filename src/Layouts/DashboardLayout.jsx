@@ -20,11 +20,13 @@ const DashboardLayout = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-11/12 mx-auto pt-16">
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
-          <nav className="navbar w-full bg-base-300">
+          <nav className="navbar w-full">
+{/*                       <nav className="navbar w-full bg-base-300">
+ */}
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -57,9 +59,17 @@ const DashboardLayout = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div
+          {/* <div
             className="
       bg-base-200 min-h-full
+      transition-all duration-300 ease-in-out 
+      w-64 mr-5
+      is-drawer-close:w-14 is-drawer-open:w-64
+    "
+          > */}
+           <div
+            className="
+     min-h-full
       transition-all duration-300 ease-in-out 
       w-64 mr-5
       is-drawer-close:w-14 is-drawer-open:w-64

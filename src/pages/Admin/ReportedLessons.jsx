@@ -77,7 +77,7 @@ const handleDelete = (id) => {
       <h2 className="text-xl font-bold mb-4">Total Reported Lessons: {lessons.length}</h2>
 
       <table className="table w-full">
-        <thead>
+        <thead className="bg-gray-200">
           <tr>
             <th>Lesson Title</th>
             <th>Report Count</th>

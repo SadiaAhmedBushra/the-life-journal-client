@@ -1,11 +1,17 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import LessonCard from "../LessonCard/LessonCard";
+import LessonCard from "../../Shared/LessonCard/LessonCard";
 import LoadingSpinner from "../../../Components/LoadingSpinner";
 
-const PublicLessons = () => {
+function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
+}
+
+const CategoryBasedLessons = () => {
   const axiosSecure = useAxiosSecure();
+  const query = useQueryParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const lessonsPerPage = 6;
@@ -14,6 +20,12 @@ const PublicLessons = () => {
   const [category, setCategory] = useState("");
   const [emotionalTone, setEmotionalTone] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+
+  useEffect(() => {
+    const urlCategory = query.get("category") || "";
+    setCategory(urlCategory);
+    setCurrentPage(1);
+  }, [query]);
 
   const { data: lessons = [], isLoading } = useQuery({
     queryKey: ["public-lessons"],
@@ -134,7 +146,7 @@ const PublicLessons = () => {
         <p className="text-center text-secondary">No lessons found.</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentLessons.map((lesson) => (
               <LessonCard key={lesson._id} lesson={lesson} />
             ))}
@@ -175,4 +187,4 @@ const PublicLessons = () => {
   );
 };
 
-export default PublicLessons;
+export default CategoryBasedLessons;

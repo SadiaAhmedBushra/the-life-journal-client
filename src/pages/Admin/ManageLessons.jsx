@@ -94,12 +94,12 @@ const ManageLessons = () => {
 
       <div className="mb-6 flex flex-wrap gap-4">
         <select
-          className="select select-bordered border-primary rounded-lg w-auto"
-          value={filters.category}
-          onChange={(e) =>
-            setFilters((f) => ({ ...f, category: e.target.value }))
-          }
-        >
+  className="select select-bordered border-primary rounded-lg w-auto dark:bg-gray-800 dark:text-white dark:border-gray-600"
+  value={filters.category}
+  onChange={(e) =>
+    setFilters((f) => ({ ...f, category: e.target.value }))
+  }
+>
           <option value="">All Categories</option>
           <option value="Mindset">Mindset</option>
           <option value="Personal Growth">Personal Growth</option>
@@ -118,13 +118,13 @@ const ManageLessons = () => {
           <option value="private">Private</option>
         </select>
 
-        <select
-          className="select select-bordered w-auto border-primary rounded-lg"
-          value={filters.isFlagged}
-          onChange={(e) =>
-            setFilters((f) => ({ ...f, isFlagged: e.target.value }))
-          }
-        >
+   <select
+  className="select select-bordered w-auto border-primary rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600"
+  value={filters.isFlagged}
+  onChange={(e) =>
+    setFilters((f) => ({ ...f, isFlagged: e.target.value }))
+  }
+>
           <option value="">All</option>
           <option value="true">Flagged</option>
           <option value="false">Not Flagged</option>

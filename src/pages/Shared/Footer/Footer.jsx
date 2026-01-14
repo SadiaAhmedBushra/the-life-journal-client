@@ -9,12 +9,13 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const Footer = () => {
   return (
     <footer className="bg-indigo-300 py-12 px-6 md:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-10 text-center lg:text-left">
-        
+        {/* Brand */}
         <div className="space-y-4">
           <Logo />
           <p>
@@ -23,65 +24,128 @@ const Footer = () => {
           </p>
 
           <div className="flex justify-center lg:justify-start space-x-4 mt-6">
-            {[FaFacebookF, FaLinkedinIn, FaXTwitter].map(
-              (Icon, i) => (
-                <button
-                  key={i}
-                  className="p-3 rounded-full btn-primary transition-colors"
-                  aria-label="Social Link"
-                >
-                  <Icon className="w-5 h-5 text-white" />
-                </button>
-              )
-            )}
+            <button
+              onClick={() => window.open("https://facebook.com", "_blank")}
+              className="p-3 rounded-full btn-primary"
+              aria-label="Facebook"
+            >
+              <FaFacebookF className="w-5 h-5 text-white" />
+            </button>
+
+            <button
+              onClick={() => window.open("https://linkedin.com", "_blank")}
+              className="p-3 rounded-full btn-primary"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedinIn className="w-5 h-5 text-white" />
+            </button>
+
+            <button
+              onClick={() => window.open("https://x.com", "_blank")}
+              className="p-3 rounded-full btn-primary"
+              aria-label="X"
+            >
+              <FaXTwitter className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
 
+        {/* Quick Links */}
         <div>
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-3">
-            <li><Link to="/" className="hover:underline text-muted">Home</Link></li>
-            <li><Link to="/public-lessons" className="hover:underline text-muted">Public Lessons</Link></li>
-            <li><Link to="/dashboard" className="hover:underline text-muted">Dashboard</Link></li>
+            <li>
+              <Link to="/" className="hover:underline text-muted">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/public-lessons" className="hover:underline text-muted">
+                Public Lessons
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className="hover:underline text-muted">
+                Blogs
+              </Link>
+            </li>
+            <li>
+              <Link to="/dashboard" className="hover:underline text-muted">
+                Dashboard
+              </Link>
+            </li>
           </ul>
         </div>
 
+        {/* Resources */}
         <div>
           <h3 className="text-xl font-semibold mb-4">Resources</h3>
           <ul className="space-y-3">
-            <li><Link to="/terms" className="hover:underline text-muted">Terms & Conditions</Link></li>
-            <li><Link to="/privacy" className="hover:underline text-muted">Privacy Policy</Link></li>
-            <li><Link to="/help" className="hover:underline text-muted">Help Center</Link></li>
+            <li>
+              <Link to="/terms-and-conditions" className="hover:underline text-muted">
+                Terms & Conditions
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy-policy" className="hover:underline text-muted">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/help-center" className="hover:underline text-muted">
+                Help Center
+              </Link>
+            </li>
           </ul>
         </div>
 
+        {/* Contact */}
         <div>
           <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
           <ul className="space-y-4 text-muted">
-            <li className="flex items-center justify-center md:justify-start gap-3">
+            <li className="flex items-center justify-center lg:justify-start gap-3">
               <FaMapMarkerAlt className="text-primary" />
-              <span>Dhaka, Bangladesh</span>
+              <a
+                href="https://maps.google.com?q=Dhaka,Bangladesh"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Dhaka, Bangladesh
+              </a>
             </li>
-            <li className="flex items-center justify-center md:justify-start gap-3">
+
+            <li className="flex items-center justify-center lg:justify-start gap-3">
               <FaPhoneAlt className="text-primary" />
-              <span>+880 1234 567 890</span>
+              <a href="tel:+8801234567890">+880 1234 567 890</a>
             </li>
-            <li className="flex items-center justify-center md:justify-start gap-3">
+
+            <li className="flex items-center justify-center lg:justify-start gap-3">
               <FaEnvelope className="text-primary" />
-              <span>support@thelifejournal.com</span>
+              <a href="mailto:support@thelifejournal.com">
+                support@thelifejournal.com
+              </a>
             </li>
           </ul>
         </div>
       </div>
 
+      {/* Subscribe */}
       <div className="mt-14 flex justify-center">
         <div className="text-center max-w-md w-full">
           <h3 className="text-xl font-semibold mb-4">Subscribe</h3>
           <p className="text-white mb-4">
-            Get the latest life lessons, tips, and updates straight to your inbox.
+            Get the latest life lessons, tips, and updates straight to your
+            inbox.
           </p>
 
-          <form className="flex flex-col sm:flex-row gap-3 justify-center">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              toast.success("Subscribed successfully! 🎉");
+              e.target.reset();
+            }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
+          >
             <input
               type="email"
               placeholder="Your email"
@@ -96,7 +160,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-12 border-t border-primary pt-6 text-center text-muted text-sm">
-        &copy; {new Date().getFullYear()} The Life Journal. All rights reserved.
+        © {new Date().getFullYear()} The Life Journal. All rights reserved.
       </div>
     </footer>
   );

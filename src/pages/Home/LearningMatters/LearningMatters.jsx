@@ -56,7 +56,7 @@ const LearningMatters = () => {
             <span className="text-primary">Truly Matters</span>
           </h2>
 
-          <p className="mt-6 text-lg text-muted leading-relaxed">
+          <p className="text-black/50 leading-relaxed text-base">
             Beyond classrooms and textbooks, life itself becomes our most
             powerful teacher — shaping perspective, character, and purpose
             through lived experience.
@@ -110,7 +110,7 @@ const LearningMatters = () => {
                     {item.title}
                   </h3>
 
-                  <p className="text-muted leading-relaxed text-base">
+                  <p className="text-black/50 leading-relaxed text-base">
                     {item.description}
                   </p>
 

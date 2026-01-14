@@ -28,6 +28,12 @@ import AdminDashboardHome from "../pages/Admin/AdminDashboardHome";
 import ManageLessons from "../pages/Admin/ManageLessons";
 import ReportedLessons from "../pages/Admin/ReportedLessons";
 import AdminProfile from "../pages/Admin/AdminProfile";
+import CategoryBasedLessons from "../pages/Home/Home/CategoryBasedLessons";
+import BlogPostPage from "../pages/BlogPostsPage/BlogPostsPage";
+import BlogPostsPage from "../pages/BlogPostsPage/BlogPostsPage";
+import TermsConditions from "../pages/TermsConditions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import HelpCenter from "../pages/HelpCenter.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -40,17 +46,35 @@ export const router = createBrowserRouter([
         path: "public-lessons",
         element: <PublicLessons />,
       },
+      { 
+        path: "lessons", 
+        element: <CategoryBasedLessons /> 
+      },
+      {
+        path: "/blog",
+        element: <BlogPostsPage />,
+      },
       {
         path: "/lesson/:id",
         element: (
-          <PrivateRoute>
             <LessonDetails />
-          </PrivateRoute>
         ),
       },
       {
         path: "payment",
         element: <Payment />,
+      },
+      {
+        path: "terms-and-conditions",
+        element: <TermsConditions />,
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "help-center",
+        element: <HelpCenter />,
       },
       {
         path: "/profile/:email",
@@ -149,11 +173,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/admin/reported-lessons",
-        element: <AdminRoute><ReportedLessons /></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <ReportedLessons />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/admin/admin-profile",
-        element: <AdminRoute><AdminProfile /></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <AdminProfile />
+          </AdminRoute>
+        ),
       },
     ],
   },

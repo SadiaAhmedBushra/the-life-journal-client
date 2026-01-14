@@ -6,9 +6,9 @@ import { ToastContainer } from 'react-toastify';
 
 const RootLayout = () => {
     return (
-        <div className='max-w-7xl mx-auto bg-main'>
+        <div className='max-w-11/12 mx-auto bg-main pt-16'>
             <Navbar></Navbar>
-            <Outlet></Outlet>
+            <Outlet className=""></Outlet>
             <Footer></Footer>
         </div>
     );

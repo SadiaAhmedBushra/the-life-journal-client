@@ -5,10 +5,11 @@ import b1Img from "../../../assets/write3.jpg";
 import b2Img from "../../../assets/growth2.jpg";
 import b3Img from "../../../assets/learn.jpg";
 import { Link } from "react-router";
+import { FaChevronDown } from "react-icons/fa";
 
 const Banner = () => {
   return (
-    <div className="my-6 lg:rounded-2xl overflow-hidden shadow-2xl">
+    <div className="my-6 lg:rounded-2xl overflow-hidden shadow-2xl relative">
       <Carousel
         autoPlay={true}
         infiniteLoop={true}
@@ -18,7 +19,7 @@ const Banner = () => {
       >
         {/* SLIDE 1 */}
         <div
-          className="h-[400px] lg:h-[600px] bg-cover bg-center relative flex items-center justify-center"
+          className="h-[60vh] lg:h-[70vh] bg-cover bg-center relative flex items-center justify-center"
           style={{ backgroundImage: `url(${b1Img})` }}
         >
           <div className="absolute inset-0 bg-black/60"></div>
@@ -39,12 +40,12 @@ const Banner = () => {
 
         {/* SLIDE 2 */}
         <div
-          className="h-[400px] lg:h-[600px] bg-cover bg-center relative flex items-center justify-center"
+          className="h-[60vh] lg:h-[70vh] bg-cover bg-center relative flex items-center justify-center"
           style={{ backgroundImage: `url(${b2Img})` }}
         >
           <div className="absolute inset-0 bg-black/60"></div>
 
-          <div className="absolute left-12 lg:left-10 top-1/2 -translate-y-1/2 z-10  text-left">
+          <div className="absolute left-12 lg:left-10 top-1/2 -translate-y-1/2 z-10 text-left">
             <h1 className="text-3xl md:text-5xl text-white font-bold mb-4">
               Track Your Growth
             </h1>
@@ -60,12 +61,12 @@ const Banner = () => {
 
         {/* SLIDE 3 */}
         <div
-          className="h-[400px] lg:h-[600px] bg-cover bg-center relative flex items-center justify-center"
+          className="h-[60vh] lg:h-[70vh] bg-cover bg-center relative flex items-center justify-center"
           style={{ backgroundImage: `url(${b3Img})` }}
         >
           <div className="absolute inset-0 bg-black/60"></div>
 
-          <div className="absolute left-12 md:left-24 top-1/2 -translate-y-1/2 z-10  text-left">
+          <div className="absolute left-12 md:left-24 top-1/2 -translate-y-1/2 z-10 text-left">
             <h1 className="text-3xl lg:text-5xl font-bold mb-4 text-white">
               Learn From the Community
             </h1>
@@ -78,6 +79,11 @@ const Banner = () => {
           </div>
         </div>
       </Carousel>
+
+      {/* Visual flow indicator */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-white opacity-80 animate-bounce">
+        <FaChevronDown size={20} />
+      </div>
     </div>
   );
 };

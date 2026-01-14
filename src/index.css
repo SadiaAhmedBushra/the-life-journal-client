@@ -17,14 +17,25 @@
   --color-primary: #CAEB66;
   --color-secondary: #03373d;
 }
-
-
+body {
+  overflow-x: hidden;
+}
 
 * {
   /* margin: 0;
   padding: 0; */
   box-sizing: border-box;
   
+}
+/* Hide scrollbar for WebKit browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 html {

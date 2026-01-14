@@ -119,16 +119,6 @@ const userIsPremium = role === "Premium" || role === "admin";
   };
 
   const handleDetailsClick = () => {
-    if (!userIsLoggedIn) {
-      navigate("/auth/login");
-      return;
-    }
-
-    if (isPremiumLesson && !userIsPremium) {
-      navigate("/payment");
-      return;
-    }
-
     navigate(`/lesson/${lesson._id}`);
   };
 

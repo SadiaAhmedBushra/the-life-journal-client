@@ -102,7 +102,7 @@ const MyProfile = () => {
             <div className="flex flex-col gap-13 w-full">
               <div className="flex flex-col lg:flex-row justify-between items-start w-full px-6 gap-10">
                 <div className="flex flex-col justify-center items-start gap-6 w-full lg:w-1/2">
-                  <p className="flex flex-col text-muted">
+                  <p className="flex flex-col  text-black/50">
                     Name
                     {/* <span className="font-bold text-primary text-xl">
                       {user?.displayName}
@@ -111,7 +111,7 @@ const MyProfile = () => {
                       {dbUser?.name || user?.email}
                     </span>
                   </p>
-                  <p className="flex flex-col text-muted">
+                  <p className="flex flex-col  text-black/50">
                     Email
                     <span className="font-bold text-primary text-xl">
                       {user?.email}
@@ -120,13 +120,13 @@ const MyProfile = () => {
                 </div>
 
                 <div className="flex flex-col justify-between items-start gap-6 w-full lg:w-1/2">
-                  <p className="flex flex-col text-muted">
+                  <p className="flex flex-col text-black/50">
                     Lessons Created
                     <span className="font-bold text-primary text-xl">
                       {authorLessonsCountData.lessonsCreated}
                     </span>
                   </p>
-                  <p className="flex flex-col text-muted">
+                  <p className="flex flex-col text-black/50">
                     Lessons Saved
                     <span className="font-bold text-primary text-xl">
                       {favorites.length}
@@ -152,13 +152,13 @@ const MyProfile = () => {
             Lessons Created
           </h4>
           {lessonData.length === 0 ? (
-            <p className="text-center text-muted">No lessons created yet.</p>
+            <p className="text-center  text-black/50">No lessons created yet.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
               {[...lessonData]
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map((lesson) => (
-                  <div className="bg-white rounded-lg shadow-md">
+                  <div className="bg-primary/50 rounded-lg shadow-md">
                     <LessonCard key={lesson._id} lesson={lesson} />
                   </div>
                 ))}

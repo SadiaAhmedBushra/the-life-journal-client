@@ -91,6 +91,28 @@ const Navbar = () => {
           Lessons
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to="/blog"
+          onClick={() => setMobileMenuOpen(false)}
+          className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }
+        >
+          Blogs
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/terms-and-conditions"
+          onClick={() => setMobileMenuOpen(false)}
+          className={({ isActive }) =>
+            isActive ? "text-secondary font-extrabold" : ""
+          }
+        >
+          Terms & Conditions
+        </NavLink>
+      </li>
 
       {user && (
         <>
@@ -122,8 +144,12 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-main">
-      <div className="navbar-start">
+    // <div className="navbar bg-main w-full max-w-full px-4">
+    // <div className="navbar bg-main w-full max-w-full px-4 fixed top-0 left-0 right-0 z-50 shadow-lg">
+    <div className="navbar fixed top-0 left-0 right-0 z-50 px-4 bg-transparent backdrop-blur-md shadow-md">
+
+
+      <div className="navbar-start flex-nowrap items-center">
         <div className="dropdown" ref={mobileMenuRef}>
           <button
             className="btn btn-ghost lg:hidden"
@@ -153,8 +179,18 @@ const Navbar = () => {
           )}
         </div>
 
-        <Link to="/" className="text-xl ml-2">
-          <Logo className="hidden sm:block" />
+        <Link
+          to="/"
+          className="ml-2 flex items-center whitespace-nowrap min-w-max lg:hidden"
+        >
+          <Logo compact className="hidden sm:block" />
+        </Link>
+
+        <Link
+          to="/"
+          className="ml-2 flex items-center whitespace-nowrap min-w-max hidden lg:flex"
+        >
+          <Logo />
         </Link>
       </div>
 
@@ -208,7 +244,7 @@ const Navbar = () => {
             )}
 
             <button
-              className="rounded-full"
+              className="rounded-full flex flex-shrink-0"
               onClick={() => setUserMenuOpen((prev) => !prev)}
               aria-label="User menu"
             >
@@ -216,6 +252,7 @@ const Navbar = () => {
                 src={user.photoURL || "/default-profile.png"}
                 alt={user.displayName || "User"}
                 className="w-10 h-10 rounded-full object-cover"
+                // className="w-12 h-12 rounded-full object-cover sm:w-8 sm:h-8"
               />
             </button>
 
